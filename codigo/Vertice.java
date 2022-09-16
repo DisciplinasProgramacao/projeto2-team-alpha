@@ -25,7 +25,7 @@
 public class Vertice {
     
     private ABB<Aresta> arestas;    
-    private final int  id;
+    private final int id;
     private boolean visitado;
 
 /**
@@ -54,7 +54,6 @@ public class Vertice {
      */
     public Aresta existeAresta(int destino){
         return this.arestas.find(destino);
-
     }
     
     /**

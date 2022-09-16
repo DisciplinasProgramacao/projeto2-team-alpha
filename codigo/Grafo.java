@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+import java.util.*;
+
 /** 
  * Classe básica para um Grafo simples
  */
@@ -98,7 +100,13 @@ public class Grafo {
     }
     
     public int tamanho(){
-        return 0;
+        int qtdArestas = 0;
+        Vertice[] a = null;
+        a = vertices.allElements(a);
+        for(int i = 1; i < vertices.size(); i++) {
+            qtdArestas += vertices.find(i).grau();
+        }
+        return this.ordem() + qtdArestas;
     }
 
     public int ordem(){
