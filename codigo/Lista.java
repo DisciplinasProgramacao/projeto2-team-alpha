@@ -1,6 +1,4 @@
-
 import java.util.LinkedList;
-
 public class Lista<T> {
 
     private LinkedList<T> data;
