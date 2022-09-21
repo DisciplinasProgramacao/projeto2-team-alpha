@@ -24,7 +24,7 @@ package source;
  * SOFTWARE.
  */
 
-/** 
+/**
  * Classe básica para um Grafo simples
  */
 public class Grafo {
@@ -34,31 +34,33 @@ public class Grafo {
     /**
      * Construtor. Cria um grafo vazio com capacidade para MAX_VERTICES
      */
-    public Grafo(String nome){
+    public Grafo(String nome) {
         this.nome = nome;
         this.vertices = new ABB<>();
     }
 
-    public void carregar(String nomeArquivo){
+    public void carregar(String nomeArquivo) {
 
     }
 
-    public void salvar(String nomeArquivo){
-        
+    public void salvar(String nomeArquivo) {
+
     }
 
     /**
-     * Adiciona, se possível, um vértice ao grafo. O vértice é auto-nomeado com o próximo id disponível.
+     * Adiciona, se possível, um vértice ao grafo. O vértice é auto-nomeado com o
+     * próximo id disponível.
      */
-    public boolean addVertice(int id){
+    public boolean addVertice(int id) {
         Vertice novo = new Vertice(id);
         return this.vertices.add(id, novo);
     }
 
     /**
-     * Adiciona uma aresta entre dois vértices do grafo. 
+     * Adiciona uma aresta entre dois vértices do grafo.
      * Não verifica se os vértices pertencem ao grafo.
-     * @param origem Vértice de origem
+     * 
+     * @param origem  Vértice de origem
      * @param destino Vértice de destino
      */
     public boolean addAresta(int origem, int destino, int peso) {
@@ -70,7 +72,7 @@ public class Grafo {
             chegada.addAresta(origem, peso);
             return true;
         }
-        
+
         return false;
     }
 
@@ -84,24 +86,25 @@ public class Grafo {
 
     public Aresta existeAresta(int verticeA, int verticeB) {
         Aresta aresta = vertices.find(verticeA).arestaConectadaCom(verticeB);
-        if(aresta != null){
+        if (aresta != null) {
             return aresta;
         }
 
-       return null;
+        return null;
     }
-    
+
     /**
-     * Verifica se este é um grafo completo. 
+     * Verifica se este é um grafo completo.
+     * 
      * @return TRUE para grafo completo, FALSE caso contrário
      */
     public boolean eCompleto() {
-        Vertice [] verticesArray = getVerticeArray();
+        Vertice[] verticesArray = getVerticeArray();
 
         for (Vertice vertice : verticesArray) {
-            if(!vertice.foiVisitado()){
+            if (!vertice.foiVisitado()) {
                 for (Vertice destino : verticesArray) {
-                    if(vertice != destino  && !vertice.existeAresta(destino.getId()))
+                    if (vertice != destino && !vertice.existeAresta(destino.getId()))
                         return false;
                 }
                 vertice.visitar();
@@ -114,21 +117,20 @@ public class Grafo {
 
     public Grafo subGrafo(Lista<Vertice> vertices) {
         Grafo subgrafo = new Grafo("Subgrafo de " + this.nome);
-        
 
         return subgrafo;
     }
-    
+
     public int tamanho() {
         int qtdArestas = 0;
-       
-        Vertice [] verticesArray = getVerticeArray();
+
+        Vertice[] verticesArray = getVerticeArray();
 
         for (Vertice vertice : verticesArray) {
             qtdArestas += vertice.getGrau();
         }
 
-        return this.ordem() + qtdArestas;
+        return this.ordem() + qtdArestas / 2;
     }
 
     public int ordem() {
