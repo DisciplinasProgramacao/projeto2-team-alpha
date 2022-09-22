@@ -40,6 +40,13 @@ public class Vertice {
 
         return null;
     }
+
+    public Aresta[] getAllArestas() {
+        Aresta[] arestaArray = new Aresta[this.getGrau()];
+        arestaArray = arestas.allElements(arestaArray);
+
+        return arestaArray;
+    }
     
     /**
      * Retorna o grau do vértice

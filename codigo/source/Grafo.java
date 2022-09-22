@@ -1,5 +1,14 @@
 package source;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.sound.midi.Synthesizer;
+
 /** 
  * MIT License
  *
@@ -39,12 +48,34 @@ public class Grafo {
         this.vertices = new ABB<>();
     }
 
-    public void carregar(String nomeArquivo) {
+    public void carregar(String nomeArquivo) throws IOException {
+        Arquivo arq = new Arquivo("app/files/", nomeArquivo, "read");
+        String teste = "";
+        
+        while (arq.ready())
+            teste += arq.readLine();
 
+        System.out.print(teste);
+  
+        arq.close();
     }
 
-    public void salvar(String nomeArquivo) {
+    public void salvar(String nomeArquivo) throws Exception {
+        Arquivo arq = new Arquivo("app/files/", nomeArquivo, "save");
 
+        arq.write(this.tamanho() + "\n");
+
+        for (Vertice vertice : getVerticeArray()) {
+            arq.write(vertice.getId());
+
+            for (Aresta aresta : vertice.getAllArestas()) {
+                arq.write("; " + aresta.getDestino());
+            }
+
+            arq.write("\n");
+        }
+    
+        arq.close();
     }
 
     /**
@@ -130,7 +161,7 @@ public class Grafo {
             qtdArestas += vertice.getGrau();
         }
 
-        return this.ordem() + qtdArestas / 2;
+        return this.ordem() + (qtdArestas / 2);
     }
 
     public int ordem() {
