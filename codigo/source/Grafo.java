@@ -101,7 +101,7 @@ public class Grafo {
         for (Vertice vertice : verticesArray) {
             if(!vertice.foiVisitado()){
                 for (Vertice destino : verticesArray) {
-                    if(vertice != destino  && !vertice.existeAresta(destino.getId()))
+                    if(vertice != destino && !vertice.existeAresta(destino.getId()))
                         return false;
                 }
                 vertice.visitar();
