@@ -47,7 +47,28 @@ public class Grafo {
         this.nome = nome;
         this.vertices = new ABB<>();
     }
+    public Grafo(String nome, int qntVertice){
+        this.nome = nome;
+        this.vertices = new ABB<>();
+        Vertice[] arr = new Vertice[qntVertice];
 
+        for(int i=0; i<qntVertice; i++){
+            Vertice adicionado = this.addVertice(i);
+            arr[i]=(adicionado);
+            for(int j=0; j<i;j++){
+                this.addAresta(j, arr[i].getId());
+            }
+        }
+    }
+    /**
+     * Adiciona, se possível, um vértice ao grafo. O vértice é auto-nomeado com o
+     * próximo id disponível.
+     */
+    public Vertice addVertice(int id) {
+        Vertice novo = new Vertice(id);
+        this.vertices.add(id, novo);
+        return novo;
+    }
     public void carregar(String nomeArquivo) throws IOException {
         Arquivo arq = new Arquivo("app/files/", nomeArquivo, "read");
         String teste = "";
@@ -82,10 +103,7 @@ public class Grafo {
      * Adiciona, se possível, um vértice ao grafo. O vértice é auto-nomeado com o
      * próximo id disponível.
      */
-    public boolean addVertice(int id) {
-        Vertice novo = new Vertice(id);
-        return this.vertices.add(id, novo);
-    }
+
 
     /**
      * Adiciona uma aresta entre dois vértices do grafo.

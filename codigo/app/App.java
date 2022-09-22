@@ -16,5 +16,10 @@ public class App {
         System.out.println("O Grafo é completo? " + grafo.eCompleto());
         //grafo.salvar("grafoTeste");
         grafo.carregar("grafoTeste");
+
+        System.out.println("/nTeste do gráfico completo:");
+        Grafo completo = new Grafo("completo", 30);
+        System.out.println("Tamanho do grafo: " + completo.tamanho());
+        System.out.println("O Grafo é completo? " + completo.eCompleto());
     }
 }
