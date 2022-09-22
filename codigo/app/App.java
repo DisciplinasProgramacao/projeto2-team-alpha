@@ -10,11 +10,13 @@ public class App {
         grafo.addVertice(3);
         grafo.addAresta(1, 2, 1);
         grafo.addAresta(3, 2, 3);
-        grafo.addAresta(1, 3, 2);
 
         System.out.println("Tamanho do grafo: " + grafo.tamanho());
         System.out.println("O Grafo é completo? " + grafo.eCompleto());
         //grafo.salvar("grafoTeste");
-        grafo.carregar("grafoTeste");
+
+        Grafo leituraArquivo = new Grafo("leituraArquivo");
+        leituraArquivo.carregar("grafoTeste");
+        System.out.println("Tamanho do grafo: " + leituraArquivo.tamanho());
     }
 }

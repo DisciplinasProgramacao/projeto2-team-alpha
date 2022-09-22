@@ -1,13 +1,6 @@
 package source;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.sound.midi.Synthesizer;
 
 /** 
  * MIT License
@@ -50,12 +43,23 @@ public class Grafo {
 
     public void carregar(String nomeArquivo) throws IOException {
         Arquivo arq = new Arquivo("app/files/", nomeArquivo, "read");
-        String teste = "";
-        
-        while (arq.ready())
-            teste += arq.readLine();
+       
+        while (arq.ready()) {
+            String line = arq.readLine();
+            line = line.replaceAll("\\n", "");
+            String vertices[] = line.split(";");
 
-        System.out.print(teste);
+            int verticeOrigem = Integer.parseInt(vertices[0]);
+            this.addVertice(verticeOrigem);
+
+            for (String vertice : vertices) {
+                int verticeInt = Integer.parseInt(vertice);
+
+                if (verticeInt != verticeOrigem){
+                    this.addAresta(verticeOrigem, verticeInt);
+                }
+            }
+        }
   
         arq.close();
     }
@@ -63,13 +67,11 @@ public class Grafo {
     public void salvar(String nomeArquivo) throws Exception {
         Arquivo arq = new Arquivo("app/files/", nomeArquivo, "save");
 
-        arq.write(this.tamanho() + "\n");
-
-        for (Vertice vertice : getVerticeArray()) {
+        for (Vertice vertice : getAllVertices()) {
             arq.write(vertice.getId());
 
             for (Aresta aresta : vertice.getAllArestas()) {
-                arq.write("; " + aresta.getDestino());
+                arq.write(";" + aresta.getDestino());
             }
 
             arq.write("\n");
@@ -130,11 +132,11 @@ public class Grafo {
      * @return TRUE para grafo completo, FALSE caso contrário
      */
     public boolean eCompleto() {
-        Vertice[] verticesArray = getVerticeArray();
+        Vertice[] vertices = getAllVertices();
 
-        for (Vertice vertice : verticesArray) {
+        for (Vertice vertice : vertices) {
             if (!vertice.foiVisitado()) {
-                for (Vertice destino : verticesArray) {
+                for (Vertice destino : vertices) {
                     if (vertice != destino && !vertice.existeAresta(destino.getId()))
                         return false;
                 }
@@ -155,7 +157,7 @@ public class Grafo {
     public int tamanho() {
         int qtdArestas = 0;
 
-        Vertice[] verticesArray = getVerticeArray();
+        Vertice[] verticesArray = getAllVertices();
 
         for (Vertice vertice : verticesArray) {
             qtdArestas += vertice.getGrau();
@@ -168,7 +170,7 @@ public class Grafo {
         return this.vertices.size();
     }
 
-    private Vertice[] getVerticeArray() {
+    private Vertice[] getAllVertices() {
         Vertice[] verticesArray = new Vertice[this.ordem()];
         verticesArray = vertices.allElements(verticesArray);
 

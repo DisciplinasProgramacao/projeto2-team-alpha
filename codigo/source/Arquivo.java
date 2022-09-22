@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.stream.Stream;
 
 public class Arquivo {
     private BufferedReader buffRead;
@@ -18,6 +17,7 @@ public class Arquivo {
         if(!pasta.exists()) {
             pasta.mkdirs();
         }
+
         try {
             switch (type) {
                 case "save":
@@ -25,8 +25,11 @@ public class Arquivo {
                     break;
             
                 case "read":
-                    this.buffRead = new BufferedReader(new FileReader(file + ".txt"));
+                    this.buffRead = new BufferedReader(new FileReader(path + file + ".txt"));
                     break;
+                
+                default:
+                    throw new Exception("Type incorrect");
             }
     
             this.type = type;
@@ -36,7 +39,7 @@ public class Arquivo {
     }
 
     public boolean ready() throws IOException {
-        return buffRead.ready();
+        return this.buffRead.ready();
     }
 
     public int numLines() throws IOException {
