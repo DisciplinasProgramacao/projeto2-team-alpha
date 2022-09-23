@@ -1,10 +1,10 @@
 package app;
 
-import source.Grafo;
+import source.grafo.*;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        Grafo grafo = new Grafo("teste");
+        GrafoPonderado grafo = new GrafoPonderado("teste");
         grafo.addVertice(1);
         grafo.addVertice(2);
         grafo.addVertice(3);
@@ -17,12 +17,11 @@ public class App {
         grafo.carregar("grafoTeste");
 
         System.out.println("/nTeste do gráfico completo:");
-        Grafo completo = new Grafo("completo", 30);
+        GrafoCompleto completo = new GrafoCompleto("completo", 30);
         System.out.println("Tamanho do grafo: " + completo.tamanho());
         System.out.println("O Grafo é completo? " + completo.eCompleto());
-        completo.salvar("GrafoCompleto");
 
-        Grafo semNome = new Grafo("Completo");
+        GrafoNaoPonderado semNome = new GrafoNaoPonderado("Completo");
 
         semNome.carregar("GrafoCompleto");
         System.out.println("Tamanho do grafo: " + semNome.tamanho());

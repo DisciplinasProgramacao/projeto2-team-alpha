@@ -1,4 +1,7 @@
-package source;
+package source.grafo;
+
+import source.ABB;
+import source.Lista;
 
 public class GrafoCompleto extends Grafo {
     //#region Atributo

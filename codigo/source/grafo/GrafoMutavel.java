@@ -1,6 +1,8 @@
-package source;
+package source.grafo;
 
 import java.io.IOException;
+
+import source.Arquivo;
 
 public abstract class GrafoMutavel extends Grafo{
     //#region Contrutor

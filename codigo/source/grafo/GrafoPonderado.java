@@ -1,4 +1,6 @@
-package source;
+package source.grafo;
+
+import source.Lista;
 
 public class GrafoPonderado extends GrafoMutavel {
     //#region Contrutor

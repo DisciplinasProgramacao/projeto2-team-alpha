@@ -1,4 +1,4 @@
-package source;
+package source.grafo;
 
 public class Aresta {
     private int peso;

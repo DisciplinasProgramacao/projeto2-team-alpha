@@ -1,4 +1,6 @@
-package source;
+package source.grafo;
+
+import source.ABB;
 
 public class Vertice {
     private ABB<Aresta> arestas;    

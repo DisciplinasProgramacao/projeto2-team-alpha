@@ -1,4 +1,7 @@
-package source;
+package source.grafo;
+
+import source.ABB;
+import source.Lista;
 
 /**
  * Classe básica para um Grafo simples
@@ -41,7 +44,7 @@ public abstract class Grafo {
     //#endregion
 
     //#region Métodos booleanos
-    
+
     public boolean eCompleto() {
         return false;
     }
