@@ -33,6 +33,7 @@ public class Grafo {
     public final String nome;
     private ABB<Vertice> vertices;
 
+
     /**
      * Construtor. Cria um grafo vazio com capacidade para MAX_VERTICES
      */
@@ -186,6 +187,43 @@ public class Grafo {
 
     public int ordem() {
         return this.vertices.size();
+    }
+
+    public void buscaEmProfundidade(){
+        int tempo=0;
+        Vertice[] verticesArray = getAllVertices();
+
+        for (Vertice vertice : verticesArray) {
+            vertice.setTempoDescoberta(0);
+            vertice.setTempoTermino(0);
+            vertice.setPai(null);
+        }
+
+        for(Vertice vertice : verticesArray){
+            if(vertice.getTempoDescoberta()==0){
+                buscaEmProfundidade(vertice,tempo);
+            }
+        }
+    }
+
+    public void buscaEmProfundidade(Vertice v, int tempo){
+        tempo++;
+        v.setTempoDescoberta(tempo);
+        Vertice[] verticesArray = getAllVertices();
+        Vertice[] listaAdjacencia = new Vertice[this.ordem()];
+        int i=0;
+        for(Vertice vertice : verticesArray){
+            if(vertice.existeAresta(v.getId())){
+                listaAdjacencia[i] = vertice;
+                i++;
+            }
+        }
+
+        for(Vertice vertice : listaAdjacencia){
+            if(vertice.getTempoDescoberta() == 0){
+                
+            }
+        }
     }
 
     private Vertice[] getAllVertices() {

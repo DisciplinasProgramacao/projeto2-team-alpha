@@ -13,7 +13,7 @@ public class App {
 
         System.out.println("Tamanho do grafo: " + grafo.tamanho());
         System.out.println("O Grafo é completo? " + grafo.eCompleto());
-        //grafo.salvar("grafoTeste");
+        grafo.salvar("grafoTeste");
         grafo.carregar("grafoTeste");
 
         System.out.println("/nTeste do gráfico completo:");

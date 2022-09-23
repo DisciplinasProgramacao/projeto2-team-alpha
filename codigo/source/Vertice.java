@@ -4,6 +4,33 @@ public class Vertice {
     private ABB<Aresta> arestas;    
     private final int id;
     private boolean visitado;
+    private int tempoDescoberta;
+    private int tempoTermino;
+    private Vertice pai;
+
+    public int getTempoDescoberta() {
+        return tempoDescoberta;
+    }
+
+    public void setTempoDescoberta(int tempoDescoberta) {
+        this.tempoDescoberta = tempoDescoberta;
+    }
+
+    public int getTempoTermino() {
+        return tempoTermino;
+    }
+
+    public void setTempoTermino(int tempoTermino) {
+        this.tempoTermino = tempoTermino;
+    }
+
+    public Vertice getPai() {
+        return pai;
+    }
+
+    public void setPai(Vertice pai) {
+        this.pai = pai;
+    }
 
     /**
      * Construtor para criação de vértice identificado
