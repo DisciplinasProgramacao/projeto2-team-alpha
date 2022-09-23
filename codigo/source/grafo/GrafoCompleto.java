@@ -24,7 +24,7 @@ public class GrafoCompleto extends Grafo {
             vertice = (adicionado);
 
             for (int j = 0; j < i; j++) {
-                this.addAresta(j, vertice.getId());
+                this.addAresta(j, vertice.getId(), 0);
             }
         }
     }
@@ -46,19 +46,6 @@ public class GrafoCompleto extends Grafo {
     //#endregion
 
     //#region Booleanos
-
-    private boolean addAresta(int origem, int destino) {
-        Vertice saida = this.existeVertice(origem);
-        Vertice chegada = this.existeVertice(destino);
-
-        if (saida != null && chegada != null) {
-            saida.addAresta(destino);
-            chegada.addAresta(origem);
-            return true;
-        }
-
-        return false;
-    }
 
     /**
      * Verifica se este é um grafo completo.

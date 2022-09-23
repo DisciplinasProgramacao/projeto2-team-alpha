@@ -63,6 +63,7 @@ public abstract class Grafo {
     public Vertice addVertice(int id) {
         Vertice novo = new Vertice(id);
         this.vertices.add(id, novo);
+        
         return novo;
     }
 
@@ -119,6 +120,19 @@ public abstract class Grafo {
     //#endregion
 
     //#region Métodos de Arestas
+
+    public boolean addAresta(int origem, int destino, int peso) {
+        Vertice saida = this.existeVertice(origem);
+        Vertice chegada = this.existeVertice(destino);
+
+        if (saida != null && chegada != null) {
+            saida.addAresta(destino, peso);
+            chegada.addAresta(origem, peso);
+            return true;
+        }
+
+        return false;
+    }
 
     public Aresta existeAresta(int verticeA, int verticeB) {
         Aresta aresta = vertices.find(verticeA).arestaConectadaCom(verticeB);
