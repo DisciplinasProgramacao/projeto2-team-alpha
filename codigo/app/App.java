@@ -20,5 +20,12 @@ public class App {
         Grafo completo = new Grafo("completo", 30);
         System.out.println("Tamanho do grafo: " + completo.tamanho());
         System.out.println("O Grafo é completo? " + completo.eCompleto());
+        completo.salvar("GrafoCompleto");
+
+        Grafo semNome = new Grafo("Completo");
+
+        semNome.carregar("GrafoCompleto");
+        System.out.println("Tamanho do grafo: " + semNome.tamanho());
+        System.out.println("O Grafo é completo? " + semNome.eCompleto());
     }
 }

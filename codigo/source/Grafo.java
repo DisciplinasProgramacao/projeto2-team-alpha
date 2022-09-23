@@ -63,7 +63,7 @@ public class Grafo {
         return novo;
     }
     public void carregar(String nomeArquivo) throws IOException {
-        Arquivo arq = new Arquivo("app/files/", nomeArquivo, "read");
+        Arquivo arq = new Arquivo("codigo/app/files/", nomeArquivo, "read");
        
         while (arq.ready()) {
             String line = arq.readLine();
@@ -86,7 +86,7 @@ public class Grafo {
     }
 
     public void salvar(String nomeArquivo) throws Exception {
-        Arquivo arq = new Arquivo("app/files/", nomeArquivo, "save");
+        Arquivo arq = new Arquivo("codigo/app/files/", nomeArquivo, "save");
 
         for (Vertice vertice : getAllVertices()) {
             arq.write(vertice.getId());
