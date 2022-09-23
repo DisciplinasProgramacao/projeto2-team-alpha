@@ -5,8 +5,6 @@ public class Aresta {
     private int destino;
     private boolean visitada;
 
-
-
     /**
      * Construtor para arestas com ou sem peso
      * @param peso Peso da aresta

@@ -41,6 +41,15 @@ public class Vertice {
         this.arestas = new ABB<Aresta>();
         this.visitado = false;
     }
+
+    /**
+     * Adiciona uma aresta neste vértice para um destino
+     * @param peso Peso da aresta (1 para grafos não ponderados)
+     * @param destino Vértice de destino
+    */
+    public boolean addAresta(int destino){
+        return this.arestas.add(destino, new Aresta(0, destino));
+    }
     
     /**
      * Adiciona uma aresta neste vértice para um destino
