@@ -7,13 +7,13 @@ import source.Lista;
  * Classe básica para um Grafo simples
  */
 public abstract class Grafo {
-    //#region Atributos
+    // #region Atributos
 
     public final String nome;
     protected ABB<Vertice> vertices;
-    //#endregion
+    // #endregion
 
-    //#region Construtor
+    // #region Construtor
 
     /**
      * Construtor. Cria um grafo vazio com capacidade para MAX_VERTICES
@@ -22,9 +22,9 @@ public abstract class Grafo {
         this.nome = nome;
         this.vertices = new ABB<>();
     }
-    //#endregion
+    // #endregion
 
-    //#region Getters
+    // #region Getters
 
     public int tamanho() {
         int qtdArestas = 0;
@@ -41,9 +41,9 @@ public abstract class Grafo {
     public int ordem() {
         return this.vertices.size();
     }
-    //#endregion
+    // #endregion
 
-    //#region Métodos booleanos
+    // #region Métodos booleanos
 
     public boolean eCompleto() {
         return false;
@@ -52,9 +52,9 @@ public abstract class Grafo {
     public boolean eEuleriano() {
         return false;
     }
-    //#endregion
+    // #endregion
 
-    //#region Métodos de Vértices
+    // #region Métodos de Vértices
 
     /**
      * Adiciona, se possível, um vértice ao grafo. O vértice é auto-nomeado com o
@@ -63,7 +63,7 @@ public abstract class Grafo {
     public Vertice addVertice(int id) {
         Vertice novo = new Vertice(id);
         this.vertices.add(id, novo);
-        
+
         return novo;
     }
 
@@ -78,48 +78,32 @@ public abstract class Grafo {
         return verticesArray;
     }
 
-    //#region Busca em Profundidade
-    public void buscaEmProfundidade(){
-        int tempo=0;
+    public Vertice[] buscaEmProfundidade(int id, Vertice[] visitados) {
         Vertice[] verticesArray = getAllVertices();
 
-        for (Vertice vertice : verticesArray) {
-            vertice.setTempoDescoberta(0);
-            vertice.setTempoTermino(0);
-            vertice.setPai(null);
-        }
-
-        for(Vertice vertice : verticesArray){
-            if(vertice.getTempoDescoberta()==0){
-                buscaEmProfundidade(vertice,tempo);
+        Vertice[] listaAdjacencia = new Vertice[verticesArray.length];
+        for (int i = 0; i < verticesArray.length; i++) {
+            if (verticesArray[i].existeAresta(id)) {
+                listaAdjacencia[i] = verticesArray[i];
             }
         }
+
+        for (int j = 0; j < listaAdjacencia.length; j++) {
+            if (listaAdjacencia[j] != null) {
+                if (!listaAdjacencia[j].foiVisitado()) {
+                    listaAdjacencia[j].visitar();
+                    visitados[j] = listaAdjacencia[j];
+                    buscaEmProfundidade(listaAdjacencia[j].getId(), visitados);
+                }
+            }
+        }
+
+        return visitados;
     }
 
-    public void buscaEmProfundidade(Vertice v, int tempo){
-        tempo++;
-        v.setTempoDescoberta(tempo);
-        Vertice[] verticesArray = getAllVertices();
-        Vertice[] listaAdjacencia = new Vertice[this.ordem()];
-        int i=0;
-        for(Vertice vertice : verticesArray){
-            if(vertice.existeAresta(v.getId())){
-                listaAdjacencia[i] = vertice;
-                i++;
-            }
-        }
+    // #endregion
 
-        for(Vertice vertice : listaAdjacencia){
-            if(vertice.getTempoDescoberta() == 0){
-                
-            }
-        }
-    }
-    //#endregion
-
-    //#endregion
-
-    //#region Métodos de Arestas
+    // #region Métodos de Arestas
 
     public boolean addAresta(int origem, int destino, int peso) {
         Vertice saida = this.existeVertice(origem);
@@ -144,9 +128,9 @@ public abstract class Grafo {
     }
 
     public abstract Grafo subGrafo(Lista<Vertice> vertices);
-    //#endregion
+    // #endregion
 
-    //#region Métodos Aux
+    // #region Métodos Aux
 
     public Lista<Vertice> caminhoEuleriano(Vertice verticess) {
         Vertice[] vertices = this.getAllVertices();
@@ -161,5 +145,5 @@ public abstract class Grafo {
             }
         }
     }
-    //#endregion
+    // #endregion
 }

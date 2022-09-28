@@ -1,5 +1,6 @@
 package app;
 
+import source.ABB;
 import source.grafo.*;
 import java.util.Random;
 
@@ -8,7 +9,7 @@ public class App {
         System.out.println("Grafo não ponderado:");
 
         GrafoNaoPonderado grafoNaoPonderado = new GrafoNaoPonderado("grafoNaoPonderado");
-        for(int i = 0; i <= 40; i++) {
+        for (int i = 0; i <= 40; i++) {
             grafoNaoPonderado.addVertice(i);
         }
 
@@ -28,23 +29,18 @@ public class App {
 
         grafoNaoPonderado.salvar();
 
-
         GrafoNaoPonderado grafoNaoPonderado2 = new GrafoNaoPonderado("grafoNaoPonderado2");
         grafoNaoPonderado2.carregar("grafoNaoPonderado");
 
         System.out.println("Ordem do grafo não ponderado 2: " + grafoNaoPonderado2.ordem());
         System.out.println("Tamanho do grafo não ponderado 2: " + grafoNaoPonderado2.tamanho());
 
-
-
         System.out.println("\n====================================================================\n");
-
-
 
         System.out.println("Grafo ponderado:");
 
         GrafoPonderado grafoPonderado = new GrafoPonderado("grafoPonderado");
-        for(int i = 0; i <= 40; i++) {
+        for (int i = 0; i <= 40; i++) {
             grafoPonderado.addVertice(i);
         }
 
@@ -61,7 +57,6 @@ public class App {
         System.out.println("Tamanho do grafo ponderado: " + grafoPonderado.tamanho());
         grafoPonderado.salvar();
 
-
         GrafoPonderado grafoPonderado2 = new GrafoPonderado("grafoPonderado2");
         grafoPonderado2.carregar("grafoPonderado");
 
@@ -73,5 +68,22 @@ public class App {
         // GrafoCompleto completo = new GrafoCompleto("completo", 30);
         // System.out.println("Tamanho do grafo: " + completo.tamanho());
         // System.out.println("O Grafo é completo? " + completo.eCompleto());
+
+        GrafoNaoPonderado grafo = new GrafoNaoPonderado("Sla");
+        grafo.addVertice(1);
+        grafo.addVertice(2);
+        grafo.addVertice(3);
+        grafo.addVertice(4);
+        grafo.addVertice(5);
+        grafo.addAresta(1, 3);
+        grafo.addAresta(3, 5);
+        Vertice[] visitados = new Vertice[100];
+        visitados = grafo.buscaEmProfundidade(1, visitados);
+        System.out.println("\nBusca em profundidade: ");
+        for (int i = 0; i < visitados.length; i++) {
+            if (visitados[i] != null) {
+                System.out.println(visitados[i].getId());
+            }
+        }
     }
 }
