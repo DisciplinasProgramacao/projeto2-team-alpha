@@ -128,8 +128,18 @@ public abstract class Grafo {
 
     // #region Métodos Aux
 
-    public Lista<Vertice> caminhoEuleriano() {
-        return null;
+    public Lista<Vertice> caminhoEuleriano(Vertice verticess) {
+        Vertice[] vertices = this.getAllVertices();
+        Lista<Vertice> lista = new Lista<Vertice>();
+
+        for (Vertice vertice : vertices) {
+            if (this.existeAresta(vertice.getId(), verticess.getId()) != null) {
+                lista.add(vertice);
+                this.();
+                getEulerPath(this, path, vertice);
+                break;
+            }
+        }
     }
     // #endregion
 }
