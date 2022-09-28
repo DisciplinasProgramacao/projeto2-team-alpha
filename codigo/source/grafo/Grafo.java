@@ -45,13 +45,9 @@ public abstract class Grafo {
 
     // #region Métodos booleanos
 
-    public boolean eCompleto() {
-        return false;
-    }
+    public abstract boolean eCompleto();
 
-    public boolean eEuleriano() {
-        return false;
-    }
+    public abstract boolean eEuleriano();
     // #endregion
 
     // #region Métodos de Vértices
