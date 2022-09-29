@@ -76,15 +76,27 @@ public class GrafoCompleto extends Grafo {
     /**
      * Método que cria um subgrafo completo a partir de uma lista de vertices parametrizada
      * @param vertices Lista de vétices  do subgrafo
+     * @throws Exception
      */
     @Override
-    public GrafoCompleto subGrafo(Lista<Vertice> vertices) {
-        Vertice[] verticesArray = new Vertice[this.getOrdem()];
-        verticesArray = vertices.allElements(verticesArray);
-
-        GrafoCompleto subgrafo = new GrafoCompleto("Subgrafo de " + this.nome, verticesArray.length);
-
-        return subgrafo;
+    public GrafoCompleto subGrafo(Lista<Vertice> listaVertice) throws Exception {
+        
+        Vertice[] arrayVertices= new Vertice[this.vertices.size()];
+        arrayVertices = listaVertice.allElements(arrayVertices);
+            GrafoCompleto novoSubGrafo = new GrafoCompleto("subGrafo",0);
+            for(int i=0; i<arrayVertices.length && arrayVertices[i]!=null;i++){
+                novoSubGrafo.addVertice(arrayVertices[i].getId());
+                for(int j=0; j<novoSubGrafo.ordem()-1;j++){
+                    if(this.existeAresta(arrayVertices[i].getId(), arrayVertices[j].getId())!=null){
+                        novoSubGrafo.addAresta(arrayVertices[i].getId(), arrayVertices[j].getId(), 0);
+                    }
+                }
+            }
+            if(novoSubGrafo.eCompleto()){
+                return novoSubGrafo;
+            }else{
+                throw new Exception("Esses vertices não formam um grafo completo");
+            }
     }
     //#endregion
 }

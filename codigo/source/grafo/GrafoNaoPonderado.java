@@ -28,9 +28,19 @@ public class GrafoNaoPonderado extends GrafoMutavel {
 
     //#region subgrafo
 
-    @Override
-    public GrafoNaoPonderado subGrafo(Lista<Vertice> vertices) {
-        return null;
+    public GrafoNaoPonderado subGrafo(Lista<Vertice> listaVertice) {
+        Vertice[] arrayVertices= new Vertice[this.vertices.size()];
+        arrayVertices = listaVertice.allElements(arrayVertices);
+            GrafoNaoPonderado novoSubGrafo = new GrafoNaoPonderado("subGrafo");
+            for(int i=0; i<arrayVertices.length && arrayVertices[i]!=null;i++){
+                novoSubGrafo.addVertice(arrayVertices[i].getId());
+                for(int j=0; j<novoSubGrafo.ordem()-1;j++){
+                    if(this.existeAresta(arrayVertices[i].getId(), arrayVertices[j].getId())!=null){
+                        novoSubGrafo.addAresta(arrayVertices[i].getId(), arrayVertices[j].getId());
+                    }
+                }
+            }
+            return novoSubGrafo;
     }
     //#endregion
 
@@ -77,19 +87,8 @@ public class GrafoNaoPonderado extends GrafoMutavel {
     
         arq.close();
     }
-    public GrafoNaoPonderado gerarSubGrafo(int[] vertices){
-        GrafoNaoPonderado novoSubGrafo = new GrafoNaoPonderado("subGrafo");
-        for(int i=0; i<vertices.length;i++){
-            novoSubGrafo.addVertice(vertices[i]);
-            for(int j=0; j<novoSubGrafo.ordem()-1;j++){
-                if(this.existeAresta(vertices[i], vertices[j])!=null){
-                    novoSubGrafo.addAresta(vertices[i], vertices[j], 0);
-                }
-            }
-        }
-        
-        return novoSubGrafo;
-    }
+    
+    
     public void salvar() throws IOException {
         salvar(this.nome);
     }

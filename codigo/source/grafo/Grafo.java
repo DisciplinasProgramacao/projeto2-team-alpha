@@ -128,7 +128,7 @@ public abstract class Grafo {
         return null;
     }
 
-    public abstract Grafo subGrafo(Lista<Vertice> vertices);
+    public abstract Grafo subGrafo(Lista<Vertice> vertices) throws Exception;
     // #endregion
 
     // #region Métodos Aux
