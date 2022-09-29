@@ -77,7 +77,19 @@ public class GrafoNaoPonderado extends GrafoMutavel {
     
         arq.close();
     }
-
+    public GrafoNaoPonderado gerarSubGrafo(int[] vertices){
+        GrafoNaoPonderado novoSubGrafo = new GrafoNaoPonderado("subGrafo");
+        for(int i=0; i<vertices.length;i++){
+            novoSubGrafo.addVertice(vertices[i]);
+            for(int j=0; j<novoSubGrafo.ordem()-1;j++){
+                if(this.existeAresta(vertices[i], vertices[j])!=null){
+                    novoSubGrafo.addAresta(vertices[i], vertices[j], 0);
+                }
+            }
+        }
+        
+        return novoSubGrafo;
+    }
     public void salvar() throws IOException {
         salvar(this.nome);
     }
