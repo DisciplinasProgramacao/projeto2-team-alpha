@@ -69,7 +69,7 @@ public class App {
         // System.out.println("Tamanho do grafo: " + completo.tamanho());
         // System.out.println("O Grafo é completo? " + completo.eCompleto());
 
-        GrafoNaoPonderado grafo = new GrafoNaoPonderado("Sla");
+        GrafoNaoPonderado grafo = new GrafoNaoPonderado("Grafo Ponderado");
         grafo.addVertice(1);
         grafo.addVertice(2);
         grafo.addVertice(3);
@@ -83,6 +83,15 @@ public class App {
         for (int i = 0; i < visitados.length; i++) {
             if (visitados[i] != null) {
                 System.out.println(visitados[i].getId());
+            }
+        }
+
+        Vertice[] visitadosCaminho = new Vertice[100];
+        visitadosCaminho = grafo.encontrarCaminho(1, 5, visitadosCaminho);
+        System.out.println("\n Encontrando caminho: ");
+        for (int i = 0; i < visitadosCaminho.length; i++) {
+            if (visitadosCaminho[i] != null) {
+                System.out.println(visitadosCaminho[i].getId());
             }
         }
     }
