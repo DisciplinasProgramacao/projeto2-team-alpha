@@ -67,7 +67,7 @@ public class App {
         System.out.println("\nTeste do gráfico completo:");
         GrafoCompleto completo = new GrafoCompleto("completo", 30);
         System.out.println("Tamanho do grafo: " + completo.tamanho());
-        System.out.println("O Grafo é completo? " + completo.eCompleto());
+        System.out.println("O Grafo é completo? " + completo.completo());
 
         System.out.println("\n====================================================================\n");
 
@@ -80,6 +80,7 @@ public class App {
         grafo.addVertice(4);
         grafo.addVertice(5);
         grafo.addAresta(1, 3);
+        grafo.addAresta(1, 2);
         grafo.addAresta(3, 5);
         Vertice[] visitados = new Vertice[100];
         visitados = grafo.buscaEmProfundidade(1, visitados);
@@ -118,8 +119,11 @@ public class App {
         System.out.println("\n====================================================================\n");
         System.out.println("Caminho Euleriano: ");
 
-        Vertice[] vertices = new Vertice[grafoNaoPonderado.tamanho()];
-        vertices = grafoNaoPonderado.caminhoEuleriano().allElements(vertices);
+        GrafoCompleto grafoCompleto= new GrafoCompleto("grafoCompleto", 11);
+
+        Vertice[] vertices = new Vertice[grafoCompleto.tamanho()];
+        vertices = grafoCompleto.caminhoEuleriano().allElements(vertices);
+
 
         for (Vertice vertice : vertices) {
             if (vertice != null) {

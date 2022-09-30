@@ -23,7 +23,7 @@ public class GrafoCompleto extends Grafo {
             Vertice adicionado = this.addVertice(i++);
             vertice = (adicionado);
 
-            for (int j = 0; j < i; j++) {
+            for (int j = 0; j < (i-1); j++) {
                 this.addAresta(j, vertice.getId(), 0);
             }
         }
@@ -53,7 +53,7 @@ public class GrafoCompleto extends Grafo {
      * @return TRUE para grafo completo, FALSE caso contrário
      */
     @Override
-    public boolean eCompleto() {
+    public boolean completo() {
         Vertice[] vertices = getAllVertices();
 
         for (Vertice vertice : vertices) {
@@ -71,7 +71,7 @@ public class GrafoCompleto extends Grafo {
     }
 
     @Override
-    public boolean eEuleriano() {
+    public boolean euleriano() {
         return false;
     }
     //#endregion
@@ -97,7 +97,7 @@ public class GrafoCompleto extends Grafo {
                     }
                 }
             }
-            if(novoSubGrafo.eCompleto()){
+            if(novoSubGrafo.completo()){
                 return novoSubGrafo;
             }else{
                 throw new Exception("Esses vertices não formam um grafo completo");

@@ -6,7 +6,7 @@ import source.Lista;
 /**
  * Classe básica para um Grafo simples
  */
-public abstract class Grafo {
+public abstract class Grafo implements Cloneable {
     //#region Atributos
 
     public final String nome;
@@ -39,12 +39,12 @@ public abstract class Grafo {
 
     //#region Métodos booleanos
 
-    public boolean eCompleto(){
+    public boolean completo() {
         return false;
     }
 
-    public boolean eEuleriano(){
-        return false;
+    public boolean euleriano() {
+        return true;
     }
     //#endregion
 
@@ -165,20 +165,17 @@ public abstract class Grafo {
 
     //#endregion
     public Vertice[] encontrarCaminho(int verticeInicial, int verticeDestino, Vertice[] visitados) {
-
         Vertice[] listaAdjacencia = listaDeAdjacencia(verticeInicial);
-
         Vertice inicial = this.existeVertice(verticeInicial);
-
+        Vertice destino = this.existeVertice(verticeDestino);
         int indice = 0;
 
         if (inicial.existeAresta(verticeDestino)) {
-            visitados[indice] = inicial;
-            indice++;
+            visitados[indice++] = inicial;
         } else {
             for (int j = 0; j < listaAdjacencia.length; j++) {
                 if (listaAdjacencia[j] != null) {
-                    if (listaAdjacencia[j].existeAresta(inicial.getId())) {
+                    if (listaAdjacencia[j].existeAresta(destino.getId())) {
                         encontrarCaminho(listaAdjacencia[j].getId(), verticeDestino, visitados);
                     }
                 }
@@ -221,19 +218,22 @@ public abstract class Grafo {
 
     public Lista<Vertice> caminhoEuleriano() throws Exception {
         Grafo grafoAux = (Grafo) this.clone();
-        int oddCount = quantidadeVerticesComGrauImpar();
         Lista<Vertice> caminho = new Lista<>();
-        Vertice verticeInicial = grafoAux.getAllVertices()[0];
 
-        if (oddCount == 0) {
-            caminho.add(verticeInicial);
-            caminhoEuleriano(grafoAux, caminho, caminho.getElement(0));
-        } else if (oddCount == 2) {
+        if(!this.euleriano()){
             caminho.add(getVerticeComGrauImpar());
             caminhoEuleriano(grafoAux, caminho, caminho.getElement(0));
-        } else {
-            throw new Exception("Euler properties infringed.");
         }
+        // if (oddCount == 0) {
+        //     caminho.add(verticeInicial);
+        //     caminhoEuleriano(grafoAux, caminho, caminho.getElement(0));
+        // // } else if (oddCount == 2) {
+        // //     caminho.add(getVerticeComGrauImpar());
+        // //     caminhoEuleriano(grafoAux, caminho, caminho.getElement(0));
+        // // } 
+        // }else {
+        //     throw new Exception("Euler properties infringed.");
+        // }
 
         return caminho;
     }

@@ -2,7 +2,6 @@ package source.Tests;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import source.grafo.GrafoCompleto;
@@ -19,7 +18,7 @@ public class TestGrafoCompleto {
         grafo1.addAresta(1,2,1);
         grafo1.addAresta(2,3,1);
         grafo1.addAresta(1,3,1);
-        assertTrue(grafo1.eCompleto(),"Testa se o respectivo grafo é completo");
+        assertTrue(grafo1.completo(),"Testa se o respectivo grafo é completo");
         
         
     }
@@ -32,7 +31,7 @@ public class TestGrafoCompleto {
         grafo1.addVertice(3);
         grafo1.addAresta(1,2,1);
         grafo1.addAresta(2,3,1);
-        assertFalse(grafo1.eCompleto(),"Testa se o respectivo grafo é imcompleto");
+        assertFalse(grafo1.completo(),"Testa se o respectivo grafo é imcompleto");
     }
 
 
@@ -58,7 +57,5 @@ public class TestGrafoCompleto {
         grafo1.addAresta(1,2,1);
         grafo1.addAresta(2,3,1);
         grafo1.addAresta(1,3,1);
-
-        grafo1.subGrafo();
     }
 }

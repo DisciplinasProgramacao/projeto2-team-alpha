@@ -11,12 +11,12 @@ public class GrafoNaoPonderado extends GrafoMutavel {
     }
 
     @Override
-    public boolean eCompleto() {
+    public boolean completo() {
         return false;
     }
 
     @Override
-    public boolean eEuleriano() {
+    public boolean euleriano() {
         return false;
     }
     //#endregion
