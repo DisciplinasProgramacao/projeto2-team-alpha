@@ -3,32 +3,12 @@ import org.junit.jupiter.api.Test;
 
 public class TestGrafo {
     @Test
-    void testAddAresta() {
-
-    }
-
-    @Test
-    void testAddVertice() {
-
-    }
-
-    @Test
     void testBuscaEmProfundidade() {
 
     }
 
     @Test
     void testCaminhoEuleriano() {
-
-    }
-
-    @Test
-    void testECompleto() {
-
-    }
-
-    @Test
-    void testEEuleriano() {
 
     }
 
@@ -48,7 +28,32 @@ public class TestGrafo {
     }
 
     @Test
+    void testGetArestas() {
+
+    }
+
+    @Test
+    void testListaAdjacencia() {
+
+    }
+
+    @Test
+    void testListaAdjacencia2() {
+
+    }
+
+    @Test
+    void testListaDeAdjacencia() {
+
+    }
+
+    @Test
     void testOrdem() {
+
+    }
+
+    @Test
+    void testRemoverAresta() {
 
     }
 
