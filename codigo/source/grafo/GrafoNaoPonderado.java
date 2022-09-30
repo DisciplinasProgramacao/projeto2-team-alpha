@@ -9,6 +9,16 @@ public class GrafoNaoPonderado extends GrafoMutavel {
     public GrafoNaoPonderado(String nome) {
         super(nome);
     }
+
+    @Override
+    public boolean eCompleto() {
+        return false;
+    }
+
+    @Override
+    public boolean eEuleriano() {
+        return false;
+    }
     //#endregion
 
     //#region boolean addAresta

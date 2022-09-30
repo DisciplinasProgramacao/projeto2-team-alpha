@@ -1,17 +1,18 @@
 package source.grafo;
 
 import source.ABB;
+import source.Lista;
 
 public class Vertice {
     private ABB<Aresta> arestas;    
     private final int id;
     private boolean visitado;
-    private int tempoDescoberta;
-    private int tempoTermino;
+    private int tempoDescoberta, tempoTermino;
     private Vertice pai;
+    private Lista<Vertice> adj;
 
     public int getTempoDescoberta() {
-        return tempoDescoberta;
+        return this.tempoDescoberta;
     }
 
     public void setTempoDescoberta(int tempoDescoberta) {
@@ -19,20 +20,26 @@ public class Vertice {
     }
 
     public int getTempoTermino() {
-        return tempoTermino;
+        return this.tempoTermino;
     }
 
     public void setTempoTermino(int tempoTermino) {
         this.tempoTermino = tempoTermino;
     }
 
-    public Vertice getPai() {
-        return pai;
-    }
+    public Vertice getPai() { return this.pai; }
 
     public void setPai(Vertice pai) {
         this.pai = pai;
     }
+
+    public Vertice[] getListaAdjacencia() {
+        Vertice[] vertices = new Vertice[this.getGrau()];
+        vertices = adj.allElements(vertices);
+
+        return vertices;
+    }
+
 
     /**
      * Construtor para criação de vértice identificado
@@ -41,15 +48,18 @@ public class Vertice {
     public Vertice(int id){
         this.id = id;
         this.arestas = new ABB<Aresta>();
+        this.adj = new Lista<Vertice>();
+        adj.add(this);
         this.visitado = false;
     }
 
+
     /**
      * Adiciona uma aresta neste vértice para um destino
-     * @param peso Peso da aresta (1 para grafos não ponderados)
      * @param destino Vértice de destino
     */
     public boolean addAresta(int destino){
+        adj.add(new Vertice(destino));
         return this.arestas.add(destino, new Aresta(0, destino));
     }
     
@@ -59,12 +69,22 @@ public class Vertice {
      * @param destino Vértice de destino
     */
     public boolean addAresta(int destino, int peso){
+        adj.add(new Vertice(destino));
         return this.arestas.add(destino, new Aresta(peso, destino));
     }
 
     /**
+     * Adiciona uma aresta neste vértice para um destino
+     * @param destino Vértice de destino
+     */
+    public boolean removerAresta(int destino){
+        adj.remove(this);
+        return this.arestas.remove(destino, this.arestas.find(destino));
+    }
+
+    /**
      * Verifica se já existe aresta entre este vértice e um destino. Método privado
-     * @param dest Vértice de destino
+     * @param destino Vértice de destino
      * @return TRUE se existe aresta, FALSE se não
     */
     public boolean existeAresta(int destino){
@@ -85,6 +105,7 @@ public class Vertice {
 
         return arestaArray;
     }
+
     
     /**
      * Retorna o grau do vértice

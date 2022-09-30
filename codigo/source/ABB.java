@@ -20,6 +20,16 @@ public class ABB<T> {
 
         return false;
     }
+
+    public boolean remove(int key, T newElement) {
+        if (!this.data.containsKey(key)) {
+            this.data.remove(key, newElement);
+            return true;
+        }
+
+        return false;
+    }
+
     
     public int size() {
         return this.data.size();

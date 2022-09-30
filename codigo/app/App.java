@@ -1,6 +1,7 @@
 package app;
 
 import source.ABB;
+import source.Lista;
 import source.grafo.*;
 import java.util.Random;
 
@@ -9,14 +10,14 @@ public class App {
         System.out.println("Grafo não ponderado:");
 
         GrafoNaoPonderado grafoNaoPonderado = new GrafoNaoPonderado("grafoNaoPonderado");
-        for (int i = 0; i <= 40; i++) {
+        for (int i = 0; i < 40; i++) {
             grafoNaoPonderado.addVertice(i);
         }
 
         int dec = 40;
         Random aleatorio = new Random();
 
-        for (int i = 1; i <= 40; i++) {
+        for (int i = 1; i < 40; i++) {
             int aleatorioInt = aleatorio.nextInt(((i - 1) - 0) + 1) + 0;
             int aleatorioInt2 = aleatorio.nextInt(((i - 1) - 0) + 1) + 0;
             grafoNaoPonderado.addAresta(i, dec);
@@ -40,12 +41,12 @@ public class App {
         System.out.println("Grafo ponderado:");
 
         GrafoPonderado grafoPonderado = new GrafoPonderado("grafoPonderado");
-        for (int i = 0; i <= 40; i++) {
+        for (int i = 0; i < 40; i++) {
             grafoPonderado.addVertice(i);
         }
 
         dec = 40;
-        for (int i = 1; i <= 40; i++) {
+        for (int i = 1; i < 40; i++) {
             int aleatorioInt = aleatorio.nextInt(((i - 1) - 0) + 1) + 0;
             int aleatorioInt2 = aleatorio.nextInt(((i - 1) - 0) + 1) + 0;
             grafoPonderado.addAresta(i, dec, aleatorioInt + aleatorioInt2);
@@ -69,7 +70,11 @@ public class App {
         // System.out.println("Tamanho do grafo: " + completo.tamanho());
         // System.out.println("O Grafo é completo? " + completo.eCompleto());
 
-        GrafoNaoPonderado grafo = new GrafoNaoPonderado("Sla");
+        System.out.println("\n====================================================================\n");
+
+        System.out.println("Busca em profundidade: ");
+
+        GrafoNaoPonderado grafo = new GrafoNaoPonderado("GrafoDaBuscaEmProfundidade");
         grafo.addVertice(1);
         grafo.addVertice(2);
         grafo.addVertice(3);
@@ -79,11 +84,25 @@ public class App {
         grafo.addAresta(3, 5);
         Vertice[] visitados = new Vertice[100];
         visitados = grafo.buscaEmProfundidade(1, visitados);
-        System.out.println("\nBusca em profundidade: ");
-        for (int i = 0; i < visitados.length; i++) {
-            if (visitados[i] != null) {
-                System.out.println(visitados[i].getId());
+
+        for (Vertice vertice : visitados) {
+            if (vertice != null) {
+                System.out.println(vertice.getId());
             }
         }
+
+        System.out.println("\n====================================================================\n");
+
+        System.out.println("Caminho Euleriano: ");
+
+        Vertice[] vertices = new Vertice[grafoNaoPonderado.tamanho()];
+        vertices = grafoNaoPonderado.caminhoEuleriano().allElements(vertices);
+
+        for (Vertice vertice : vertices) {
+            if (vertice != null) {
+                System.out.println(vertice.getId());
+            }
+        }
+
     }
 }

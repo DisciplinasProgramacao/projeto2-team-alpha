@@ -69,6 +69,11 @@ public class GrafoCompleto extends Grafo {
 
         return true;
     }
+
+    @Override
+    public boolean eEuleriano() {
+        return false;
+    }
     //#endregion
 
     //#region Métodos Aux
