@@ -94,7 +94,7 @@ public abstract class Grafo {
                 }
             }
         }
-
+        visitados[0] = getVertice(id);
         return visitados;
     }
 

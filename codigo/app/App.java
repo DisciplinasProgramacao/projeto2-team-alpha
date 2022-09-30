@@ -63,11 +63,11 @@ public class App {
         System.out.println();
         System.out.println("Ordem do grafo ponderado 2: " + grafoPonderado2.ordem());
         System.out.println("Tamanho do grafo ponderado 2: " + grafoPonderado2.tamanho());
-
-        // System.out.println("\nTeste do gráfico completo:");
-        // GrafoCompleto completo = new GrafoCompleto("completo", 30);
-        // System.out.println("Tamanho do grafo: " + completo.tamanho());
-        // System.out.println("O Grafo é completo? " + completo.eCompleto());
+        System.out.println("\n====================================================================\n");
+        System.out.println("\nTeste do gráfico completo:");
+        GrafoCompleto completo = new GrafoCompleto("completo", 30);
+        System.out.println("Tamanho do grafo: " + completo.tamanho());
+        System.out.println("O Grafo é completo? " + completo.eCompleto());
 
         System.out.println("\n====================================================================\n");
 
@@ -92,6 +92,30 @@ public class App {
 
         System.out.println("\n====================================================================\n");
 
+        System.out.println("Testando subGrafo:");
+        GrafoNaoPonderado grafoNaoPonderado1 = new GrafoNaoPonderado("grafoNaoPonderado");
+        for (int i = 1; i <= 999; i++) {
+            grafoNaoPonderado1.addVertice(i);
+        }
+
+        for (int i = 1; i <= 999; i = i + 2) {
+            grafoNaoPonderado1.addAresta(i, i + 1);
+        }
+        System.out.println("Ordem do grafo não ponderado: " + grafoNaoPonderado1.ordem());
+        System.out.println("Tamanho do grafo não ponderado: " + grafoNaoPonderado1.tamanho());
+
+        grafoNaoPonderado1.salvar();
+
+        Lista<Vertice> listaDeVertices = new Lista<Vertice>();
+
+        for (int i = 1; i < 499; i++) {
+            listaDeVertices.add(new Vertice(i));
+        }
+
+        GrafoNaoPonderado subGrafo = grafoNaoPonderado1.subGrafo(listaDeVertices);
+        subGrafo.salvar();
+
+        System.out.println("\n====================================================================\n");
         System.out.println("Caminho Euleriano: ");
 
         Vertice[] vertices = new Vertice[grafoNaoPonderado.tamanho()];
@@ -103,29 +127,5 @@ public class App {
             }
         }
 
-        System.out.println("\n====================================================================\n");
-
-        System.out.println("Testando subGrafo:");
-        GrafoNaoPonderado grafoNaoPonderado1 = new GrafoNaoPonderado("grafoNaoPonderado");
-        for (int i = 0; i <= 1000; i++) {
-            grafoNaoPonderado1.addVertice(i);
-        }
-
-        for(int i=1; i<=1000; i=i+2){
-            grafoNaoPonderado1.addAresta(i, i+1);
-        }
-        System.out.println("Ordem do grafo não ponderado: " + grafoNaoPonderado1.ordem());
-        System.out.println("Tamanho do grafo não ponderado: " + grafoNaoPonderado1.tamanho());
-
-        grafoNaoPonderado1.salvar();
-
-        Lista<Vertice> listaDeVertices = new Lista<Vertice>();
-
-        for(int i=0; i<500; i++){
-            listaDeVertices.add(new Vertice(i));
-        }
-
-        GrafoNaoPonderado subGrafo =  grafoNaoPonderado1.subGrafo(listaDeVertices);
-        subGrafo.salvar();
     }
 }
