@@ -95,7 +95,6 @@ public abstract class Grafo {
             }
         }
 
-        visitados[0] = getVertice(id);
         return visitados;
     }
 
@@ -164,8 +163,47 @@ public abstract class Grafo {
         return nonBridgeCount < ponteCount;
     }
 
-    public abstract Grafo subGrafo(Lista<Vertice> vertices);
     //#endregion
+    public Vertice[] encontrarCaminho(int verticeInicial, int verticeDestino, Vertice[] visitados) {
+
+        Vertice[] listaAdjacencia = listaDeAdjacencia(verticeInicial);
+
+        Vertice inicial = this.existeVertice(verticeInicial);
+
+        int indice = 0;
+
+        if (inicial.existeAresta(verticeDestino)) {
+            visitados[indice] = inicial;
+            indice++;
+        } else {
+            for (int j = 0; j < listaAdjacencia.length; j++) {
+                if (listaAdjacencia[j] != null) {
+                    if (listaAdjacencia[j].existeAresta(inicial.getId())) {
+                        encontrarCaminho(listaAdjacencia[j].getId(), verticeDestino, visitados);
+                    }
+                }
+            }
+        }
+
+        return visitados;
+    }
+
+    public Vertice[] listaDeAdjacencia(int id) {
+
+        Vertice[] verticesArray = getAllVertices();
+
+        Vertice[] listaAdjacencia = new Vertice[verticesArray.length];
+        for (int i = 0; i < verticesArray.length; i++) {
+            if (verticesArray[i].existeAresta(id)) {
+                listaAdjacencia[i] = verticesArray[i];
+            }
+        }
+
+        return listaAdjacencia;
+    }
+
+    public abstract Grafo subGrafo(Lista<Vertice> vertices) throws Exception;
+    // #endregion
 
     //#region Métodos Aux
 

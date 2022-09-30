@@ -1,6 +1,5 @@
 package app;
 
-import source.ABB;
 import source.Lista;
 import source.grafo.*;
 import java.util.Random;
@@ -104,5 +103,29 @@ public class App {
             }
         }
 
+        System.out.println("\n====================================================================\n");
+
+        System.out.println("Testando subGrafo:");
+        GrafoNaoPonderado grafoNaoPonderado1 = new GrafoNaoPonderado("grafoNaoPonderado");
+        for (int i = 0; i <= 1000; i++) {
+            grafoNaoPonderado1.addVertice(i);
+        }
+
+        for(int i=1; i<=1000; i=i+2){
+            grafoNaoPonderado1.addAresta(i, i+1);
+        }
+        System.out.println("Ordem do grafo não ponderado: " + grafoNaoPonderado1.ordem());
+        System.out.println("Tamanho do grafo não ponderado: " + grafoNaoPonderado1.tamanho());
+
+        grafoNaoPonderado1.salvar();
+
+        Lista<Vertice> listaDeVertices = new Lista<Vertice>();
+
+        for(int i=0; i<500; i++){
+            listaDeVertices.add(new Vertice(i));
+        }
+
+        GrafoNaoPonderado subGrafo =  grafoNaoPonderado1.subGrafo(listaDeVertices);
+        subGrafo.salvar();
     }
 }
