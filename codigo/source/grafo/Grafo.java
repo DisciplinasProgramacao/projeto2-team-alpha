@@ -241,5 +241,12 @@ public abstract class Grafo implements Cloneable {
 
         return visitados;
     }
+
+    public Lista<Vertice> buscaEmProfundidade(int id) {
+        Lista<Vertice> visitados = new Lista<>();
+        visitados = buscaEmProfundidadeUtil(id, visitados);
+
+        return visitados;
+    }
     //#endregion
 }

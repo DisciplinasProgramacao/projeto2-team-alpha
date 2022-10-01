@@ -89,11 +89,11 @@ public class App {
             }
         }
         System.out.println("\n====================================================================\n");
-
+        System.out.println("Encontrar Caminho:");
         // grafo.encontrarCaminho(1, 3);
 
         System.out.println("\n====================================================================\n");
-        System.out.println("Testando subGrafo:");
+        System.out.println("Subgrafo:");
 
         GrafoNaoPonderado grafoNaoPonderado1 = new GrafoNaoPonderado("grafoNaoPonderado");
         for (int i = 1; i <= 999; i++) {
