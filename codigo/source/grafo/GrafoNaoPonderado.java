@@ -1,8 +1,7 @@
 package source.grafo;
 
 import source.Lista;
-import source.Arquivo;
-import java.io.IOException;
+
 public class GrafoNaoPonderado extends GrafoMutavel {
     //#region Contrutor
 

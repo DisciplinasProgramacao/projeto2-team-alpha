@@ -78,14 +78,19 @@ public class App {
         grafo.addAresta(1, 3);
         grafo.addAresta(1, 2);
         grafo.addAresta(3, 5);
-        Vertice[] visitados = new Vertice[100];
-        visitados = grafo.buscaEmProfundidade(1, visitados);
+        Lista<Vertice> visitados = grafo.buscaEmProfundidade(1);
 
-        for (Vertice vertice : visitados) {
+        Vertice[] visitadosArray = new Vertice[100];
+        visitados.allElements(visitadosArray);
+
+        for (Vertice vertice : visitadosArray) {
             if (vertice != null) {
                 System.out.println(vertice.getId());
             }
         }
+        System.out.println("\n====================================================================\n");
+
+        // grafo.encontrarCaminho(1, 3);
 
         System.out.println("\n====================================================================\n");
         System.out.println("Testando subGrafo:");

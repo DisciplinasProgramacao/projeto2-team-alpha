@@ -222,20 +222,23 @@ public abstract class Grafo implements Cloneable {
         return caminho;
     }
 
-    public Vertice[] buscaEmProfundidade(int id, Vertice[] visitados) {
-        Vertice[] listaAdjacencia = this.listaAdjacencia(id);
+    private Lista<Vertice> buscaEmProfundidadeUtil(int id, Lista<Vertice> visitados) {
+        Vertice vertice = this.existeVertice(id);
+        if (!vertice.foiVisitado()) {
+            visitados.add(vertice);
+        }
 
-        int i = 1;
+        Vertice[] listaAdjacencia = this.listaAdjacencia(vertice.getId());
+
         for (Vertice verticeAdjacente : listaAdjacencia) {
             if (verticeAdjacente != null) {
                 if (!verticeAdjacente.foiVisitado()) {
                     verticeAdjacente.visitar();
-                    visitados[i++] = verticeAdjacente;
-                    buscaEmProfundidade(verticeAdjacente.getId(), visitados);
+                    buscaEmProfundidadeUtil(verticeAdjacente.getId(), visitados);
                 }
             }
         }
-        visitados[0] = getVertice(id);
+
         return visitados;
     }
     //#endregion
