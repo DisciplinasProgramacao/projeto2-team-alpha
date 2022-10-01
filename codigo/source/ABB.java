@@ -29,13 +29,12 @@ public class ABB<T> {
 
         return false;
     }
-
     
     public int size() {
         return this.data.size();
     }
 
-    public T[] allElements(T[] array) {
-        return this.data.values().toArray(array);
+    public T[] allElements(T[] allData) {
+        return this.data.values().toArray(allData);
     }
 }

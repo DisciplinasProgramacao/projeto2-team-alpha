@@ -9,16 +9,6 @@ public class GrafoNaoPonderado extends GrafoMutavel {
     public GrafoNaoPonderado(String nome) {
         super(nome);
     }
-
-    @Override
-    public boolean completo() {
-        return false;
-    }
-
-    @Override
-    public boolean euleriano() {
-        return false;
-    }
     //#endregion
 
     //#region boolean addAresta
@@ -36,71 +26,23 @@ public class GrafoNaoPonderado extends GrafoMutavel {
     }
     //#endregion
 
-    //#region subgrafo
+    //#region Subgrafo
 
     public GrafoNaoPonderado subGrafo(Lista<Vertice> listaVertice) {
-        Vertice[] arrayVertices= new Vertice[this.vertices.size()];
-        arrayVertices = listaVertice.allElements(arrayVertices);
-            GrafoNaoPonderado novoSubGrafo = new GrafoNaoPonderado("subGrafo");
-            for(int i=0; i<arrayVertices.length && arrayVertices[i]!=null;i++){
-                novoSubGrafo.addVertice(arrayVertices[i].getId());
-                for(int j=0; j<novoSubGrafo.ordem()-1;j++){
-                    if(this.existeAresta(arrayVertices[i].getId(), arrayVertices[j].getId())!=null){
-                        novoSubGrafo.addAresta(arrayVertices[i].getId(), arrayVertices[j].getId());
-                    }
-                }
-            }
-            return novoSubGrafo;
-    }
-    //#endregion
+        GrafoNaoPonderado novoSubGrafo = new GrafoNaoPonderado("subGrafo");
+        Vertice[] listaVertices = new Vertice[this.ordem()];
+        listaVertices = listaVertice.allElements(listaVertices);
 
-    //#region Manipular Arquivo
+        for(int i = 0; i < listaVertices.length && listaVertices[i] != null; i++) {
+            novoSubGrafo.addVertice(listaVertices[i].getId());
 
-    @Override
-    public void carregar(String nomeArquivo) throws IOException {
-        Arquivo arq = new Arquivo("codigo/app/files/", nomeArquivo, "read");
-       
-        while (arq.ready()) {
-            String line = arq.readLine();
-            line = line.replaceAll("\\n", "");
-            String vertices[] = line.split(";");
-
-            int verticeOrigem = Integer.parseInt(vertices[0]);
-            
-            for (String vertice : vertices) {
-                int verticeInt = Integer.parseInt(vertice);
-                this.addVertice(verticeInt);
-
-                if (verticeInt != verticeOrigem) {
-                    this.addAresta(verticeOrigem, verticeInt);
+            for(int j = 0; j < novoSubGrafo.ordem() - 1; j++) {
+                if(this.existeAresta(listaVertices[i].getId(), listaVertices[j].getId())!=null) {
+                    novoSubGrafo.addAresta(listaVertices[i].getId(), listaVertices[j].getId());
                 }
             }
         }
-  
-        arq.close();
-    }
-
-    @Override
-    public void salvar(String nomeArquivo) throws IOException {
-        Arquivo arq = new Arquivo("codigo/app/files/", nomeArquivo, "save");
-
-        for (Vertice vertice : this.getAllVertices()) {
-            arq.write(vertice.getId());
-            Aresta arestas[] = vertice.getAllArestas();
-
-            for (Aresta aresta : arestas) {
-                arq.write(";" + aresta.getDestino());
-            }
-
-            arq.write("\n");
-        }
-    
-        arq.close();
-    }
-    
-    
-    public void salvar() throws IOException {
-        salvar(this.nome);
+        return novoSubGrafo;
     }
     //#endregion
 }

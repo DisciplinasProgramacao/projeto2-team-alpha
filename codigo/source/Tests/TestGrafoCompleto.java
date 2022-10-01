@@ -44,7 +44,7 @@ public class TestGrafoCompleto {
         grafo1.addAresta(1,2,1);
         grafo1.addAresta(2,3,1);
         grafo1.addAresta(1,3,1);
-        assertEquals(2, grafo1.getOrdem(),"Testa ordem do respectivo gravo");
+        assertEquals(2, grafo1.ordem(),"Testa ordem do respectivo gravo");
     }
 
 

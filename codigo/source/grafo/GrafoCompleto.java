@@ -20,20 +20,12 @@ public class GrafoCompleto extends Grafo {
 
         int i = 0;
         for (Vertice vertice : arrayVertices) {
-            Vertice adicionado = this.addVertice(i++);
-            vertice = (adicionado);
+            vertice = this.addVertice(i++);
 
-            for (int j = 0; j < (i-1); j++) {
+            for (int j = 0; j < (i - 1); j++) {
                 this.addAresta(j, vertice.getId(), 0);
             }
         }
-    }
-    //#endregion
-
-    //#region Getters
-
-    public int getOrdem() {
-        return this.ordem;
     }
     //#endregion
 
@@ -54,29 +46,22 @@ public class GrafoCompleto extends Grafo {
      */
     @Override
     public boolean completo() {
-        Vertice[] vertices = getAllVertices();
-
-        for (Vertice vertice : vertices) {
-            if (!vertice.foiVisitado()) {
-                for (Vertice destino : vertices) {
-                    if (vertice != destino && !vertice.existeAresta(destino.getId()))
-                        return false;
-                }
-                vertice.visitar();
-            }
-            vertice.limparVisita();
-        }
-
         return true;
     }
 
     @Override
     public boolean euleriano() {
-        return false;
+        Vertice vertice = getVertice(this.ordem());
+
+        if(vertice.getGrau() % 2 != 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
     //#endregion
 
-    //#region Métodos Aux
+    //#region Métodos Principais
 
     /**
      * Método que cria um subgrafo completo a partir de uma lista de vertices parametrizada
@@ -85,23 +70,25 @@ public class GrafoCompleto extends Grafo {
      */
     @Override
     public GrafoCompleto subGrafo(Lista<Vertice> listaVertice) throws Exception {
-        
-        Vertice[] arrayVertices= new Vertice[this.vertices.size()];
-        arrayVertices = listaVertice.allElements(arrayVertices);
-            GrafoCompleto novoSubGrafo = new GrafoCompleto("subGrafo",0);
-            for(int i=0; i<arrayVertices.length && arrayVertices[i]!=null;i++){
-                novoSubGrafo.addVertice(arrayVertices[i].getId());
-                for(int j=0; j<novoSubGrafo.ordem()-1;j++){
-                    if(this.existeAresta(arrayVertices[i].getId(), arrayVertices[j].getId())!=null){
-                        novoSubGrafo.addAresta(arrayVertices[i].getId(), arrayVertices[j].getId(), 0);
-                    }
+        Vertice[] listaVertices = new Vertice[this.ordem()];
+        listaVertices = listaVertice.allElements(listaVertices);
+        GrafoCompleto novoSubGrafo = new GrafoCompleto("subGrafo",0);
+
+        for(int i = 0; (i < listaVertices.length) && (listaVertices[i] != null); i++) {
+            novoSubGrafo.addVertice(listaVertices[i].getId());
+
+            for(int j = 0; j < (novoSubGrafo.ordem() - 1); j++) {
+                if(this.existeAresta(listaVertices[i].getId(), listaVertices[j].getId()) != null) {
+                    novoSubGrafo.addAresta(listaVertices[i].getId(), listaVertices[j].getId(), 0);
                 }
             }
-            if(novoSubGrafo.completo()){
-                return novoSubGrafo;
-            }else{
-                throw new Exception("Esses vertices não formam um grafo completo");
-            }
+        }
+
+        if(novoSubGrafo.completo()) {
+            return novoSubGrafo;
+        } else {
+            throw new Exception("Esses vertices não formam um grafo completo");
+        }
     }
     //#endregion
 }

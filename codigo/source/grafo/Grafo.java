@@ -2,6 +2,7 @@ package source.grafo;
 
 import source.ABB;
 import source.Lista;
+import java.util.*;
 
 /**
  * Classe básica para um Grafo simples
@@ -27,23 +28,63 @@ public abstract class Grafo implements Cloneable {
     //#region Getters
 
     public int tamanho() {
-        Aresta[] aresta = new Aresta[this.ordem()];
-        aresta = this.getArestas().allElements(aresta);
-        return this.ordem() + (aresta.length  / 2);
+        return this.ordem() + (this.getAllArestas().length() / 2);
     }
 
     public int ordem() {
         return this.vertices.size();
+    }
+
+    public Vertice getVertice(int id) {
+        return vertices.find(id);
+    }
+
+    public Vertice[] getAllVertices() {
+        Vertice[] allVertices = new Vertice[vertices.size()];
+        allVertices = vertices.allElements(allVertices);
+        return allVertices;
+    }
+
+    public Lista<Aresta> getAllArestas() {
+        Lista<Aresta> arestas = new Lista<>();
+
+        for (Vertice vertice : this.getAllVertices()) {
+            for(Aresta aresta : vertice.getAllArestas()){
+                arestas.add(aresta);
+            }
+        }
+
+        return arestas;
     }
     //#endregion
 
     //#region Métodos booleanos
 
     public boolean completo() {
-        return false;
+        Vertice[] vertices = getAllVertices();
+
+        for (Vertice vertice : vertices) {
+            if (!vertice.foiVisitado()) {
+                for (Vertice destino : vertices) {
+                    if ((vertice != destino) && (vertice.existeAresta(destino.getId()) != null)) {
+                        return false;
+                    }
+                }
+                vertice.visitar();
+            }
+            vertice.limparVisita();
+        }
+
+        return true;
     }
 
     public boolean euleriano() {
+        for(Vertice vertice : this.getAllVertices()) {
+            if(vertice.getGrau() % 2 != 0) {
+                return false;
+            }
+        }
+
         return true;
     }
     //#endregion
@@ -61,43 +102,16 @@ public abstract class Grafo implements Cloneable {
         return novo;
     }
 
+    public Vertice[] listaAdjacencia(int id) {
+        Vertice[] listaAdjacencia = new Vertice[this.ordem()];
+        listaAdjacencia = vertices.find(id).getListaAdjacencia().allElements(listaAdjacencia);
+
+        return listaAdjacencia;
+    }
+
     public Vertice existeVertice(int idVertice) {
         return this.vertices.find(idVertice);
     }
-
-    public Vertice[] getAllVertices() {
-        Vertice[] verticesArray = new Vertice[this.ordem()];
-        verticesArray = vertices.allElements(verticesArray);
-
-        return verticesArray;
-    }
-
-    public Vertice[] listaAdjacencia(Vertice vertice) {
-        return vertice.getListaAdjacencia();
-    }
-
-    public Vertice[] listaAdjacencia(int id) {
-        return vertices.find(id).getListaAdjacencia();
-    }
-
-
-    public Vertice[] buscaEmProfundidade(int id, Vertice[] visitados) {
-        Vertice[] listaAdjacencia = this.listaAdjacencia(id);
-
-        int i = 1;
-        for (Vertice verticeAdjacente : listaAdjacencia) {
-            if (verticeAdjacente != null) {
-                if (!verticeAdjacente.foiVisitado()) {
-                    verticeAdjacente.visitar();
-                    visitados[i++] = verticeAdjacente;
-                    buscaEmProfundidade(verticeAdjacente.getId(), visitados);
-                }
-            }
-        }
-        visitados[0] = getVertice(id);
-        return visitados;
-    }
-
     //#endregion
 
     //#region Métodos de Arestas
@@ -115,67 +129,24 @@ public abstract class Grafo implements Cloneable {
         return false;
     }
 
-    public boolean removerAresta(int origem, int destino) {
-        Vertice saida = this.existeVertice(origem);
-        Vertice chegada = this.existeVertice(destino);
-
-        if (saida != null && chegada != null) {
-            saida.removerAresta(destino);
-            chegada.removerAresta(origem);
-            return true;
-        }
-
-        return false;
-    }
-
     public Aresta existeAresta(int verticeA, int verticeB) {
-        Aresta aresta = vertices.find(verticeA).arestaConectadaCom(verticeB);
-        if (aresta != null) {
-            return aresta;
-        }
-
-        return null;
+        return vertices.find(verticeA).existeAresta(verticeB);
     }
-
-    public static int DFS(Lista<Vertice> visited, Vertice from) {
-        int count = 1;
-        visited.add(from);
-        Vertice[] adjacentes = from.getListaAdjacencia();
-        for (Vertice to : adjacentes) {
-            if (visited.contains(to)) {
-                count += DFS(visited, to);
-            }
-        }
-        return count;
-    }
-
-    public boolean ePonte(Vertice from, Vertice to) throws CloneNotSupportedException {
-        if (from.getListaAdjacencia().length == 1) {
-            return false;
-        }
-        Grafo grafoAux = (Grafo) this.clone();
-
-        int ponteCount = DFS(new Lista<Vertice>(), to);
-        grafoAux.removerAresta(from.getId(), to.getId());
-        int nonBridgeCount = DFS(new Lista<Vertice>(), to);
-        grafoAux.addAresta(from.getId(), to.getId(), 0);
-
-        return nonBridgeCount < ponteCount;
-    }
-
     //#endregion
+
+    //#region Métodos Principais
     public Vertice[] encontrarCaminho(int verticeInicial, int verticeDestino, Vertice[] visitados) {
-        Vertice[] listaAdjacencia = listaDeAdjacencia(verticeInicial);
+        Vertice[] listaAdjacencia = listaAdjacencia(verticeInicial);
         Vertice inicial = this.existeVertice(verticeInicial);
         Vertice destino = this.existeVertice(verticeDestino);
         int indice = 0;
 
-        if (inicial.existeAresta(verticeDestino)) {
+        if (inicial.existeAresta(verticeDestino) != null) {
             visitados[indice++] = inicial;
         } else {
             for (int j = 0; j < listaAdjacencia.length; j++) {
                 if (listaAdjacencia[j] != null) {
-                    if (listaAdjacencia[j].existeAresta(destino.getId())) {
+                    if (listaAdjacencia[j].existeAresta(destino.getId()) != null) {
                         encontrarCaminho(listaAdjacencia[j].getId(), verticeDestino, visitados);
                     }
                 }
@@ -185,99 +156,87 @@ public abstract class Grafo implements Cloneable {
         return visitados;
     }
 
-    public Vertice[] listaDeAdjacencia(int id) {
-
-        Vertice[] verticesArray = getAllVertices();
-
-        Vertice[] listaAdjacencia = new Vertice[verticesArray.length];
-        for (int i = 0; i < verticesArray.length; i++) {
-            if (verticesArray[i].existeAresta(id)) {
-                listaAdjacencia[i] = verticesArray[i];
-            }
-        }
-
-        return listaAdjacencia;
-    }
-
     public abstract Grafo subGrafo(Lista<Vertice> vertices) throws Exception;
-    // #endregion
 
-    //#region Métodos Aux
+    public Lista<Vertice> caminhoEuleriano() throws IllegalStateException {
+        if(!this.euleriano()) {
+            throw new IllegalStateException("Euler properties infringed");
+        }
 
-    private void caminhoEuleriano(Grafo grafo, Lista<Vertice> caminho, Vertice from) throws CloneNotSupportedException {
-        Vertice[] listaAdjacencia = from.getListaAdjacencia();
-        for (Vertice to : listaAdjacencia) {
-            if (!ePonte(from, to)) {
-                caminho.add(to);
-                grafo.removerAresta(from.getId(), to.getId());
-                caminhoEuleriano(grafo, caminho, to);
-                break;
+        Lista<Lista<Integer>> adj = new Lista<>();
+
+        for(Vertice vertice : getAllVertices()) {
+            Lista<Integer> vertices = new Lista<>();
+            vertices.add(vertice.getId());
+
+            for(Vertice adjacencia : listaAdjacencia(vertice.getId())) {
+                if(adjacencia != null) {
+                    vertices.add(adjacencia.getId());
+                }
             }
-        }
-    }
 
-    public Lista<Vertice> caminhoEuleriano() throws Exception {
-        Grafo grafoAux = (Grafo) this.clone();
-        Lista<Vertice> caminho = new Lista<>();
-
-        if(!this.euleriano()){
-            caminho.add(getVerticeComGrauImpar());
-            caminhoEuleriano(grafoAux, caminho, caminho.getElement(0));
+            adj.add(vertices);
         }
-        // if (oddCount == 0) {
-        //     caminho.add(verticeInicial);
-        //     caminhoEuleriano(grafoAux, caminho, caminho.getElement(0));
-        // // } else if (oddCount == 2) {
-        // //     caminho.add(getVerticeComGrauImpar());
-        // //     caminhoEuleriano(grafoAux, caminho, caminho.getElement(0));
-        // // } 
-        // }else {
-        //     throw new Exception("Euler properties infringed.");
-        // }
+
+        Lista<Vertice> caminho = printEulerianCircuit(adj);
 
         return caminho;
     }
 
-    private int quantidadeVerticesComGrauImpar() {
-        int quant = 0;
-        Vertice[] listaVertices = this.getAllVertices();
+    private Lista<Vertice> printEulerianCircuit(Lista<Lista<Integer>> adj) {
+        Lista<Vertice> caminho = new Lista<>();
+        Map<Integer, Integer> arestas = new HashMap<>();
 
-        for(Vertice vertice : listaVertices) {
-            if((vertice.getGrau() % 2) != 0) {
-                quant++;
+        for (int i = 0; i < adj.length(); i++) {
+            arestas.put(i, adj.find(i).length());
+        }
+
+        Lista<Integer> currentPath = new Lista<>();
+        Lista<Vertice> currentCaminho = new Lista<>();
+        currentPath.push(0);
+        int currentVertexNumber = 0;
+
+        while (!currentPath.isEmpty()) {
+            if (adj.find(currentVertexNumber).length() > 0) {
+
+                currentPath.push(currentVertexNumber);
+                currentVertexNumber = adj.find(currentVertexNumber).pop();
+            } else {
+                Vertice vertice = getVertice(currentVertexNumber);
+
+                if(!vertice.foiVisitado()) {
+                    currentCaminho.add(vertice);
+                    vertice.visitar();
+                }
+
+                currentVertexNumber = currentPath.pop();
             }
         }
 
-        return quant;
-    }
+        currentCaminho.add(getVertice(currentVertexNumber));
 
-    private Vertice getVerticeComGrauImpar() {
-        Vertice[] listaVertices = this.getAllVertices();
-
-        for(Vertice vertice : listaVertices) {
-            if((vertice.getGrau() % 2) != 0) {
-                return vertice;
-            }
+        for(int i = currentCaminho.length(); i > 0; i--) {
+            caminho.add(currentCaminho.pop());
         }
 
-        return null;
+        return caminho;
     }
 
-    public Vertice getVertice(int id) {
-        return vertices.find(id);
-    }
+    public Vertice[] buscaEmProfundidade(int id, Vertice[] visitados) {
+        Vertice[] listaAdjacencia = this.listaAdjacencia(id);
 
-    public Lista<Aresta> getArestas() {
-        Lista<Aresta> arestas = new Lista<>();
-        Vertice[] verticesArray = getAllVertices();
-
-        for (Vertice vertice : verticesArray) {
-            for(Aresta aresta : vertice.getAllArestas()){
-                arestas.add(aresta);
+        int i = 1;
+        for (Vertice verticeAdjacente : listaAdjacencia) {
+            if (verticeAdjacente != null) {
+                if (!verticeAdjacente.foiVisitado()) {
+                    verticeAdjacente.visitar();
+                    visitados[i++] = verticeAdjacente;
+                    buscaEmProfundidade(verticeAdjacente.getId(), visitados);
+                }
             }
         }
-
-        return arestas;
+        visitados[0] = getVertice(id);
+        return visitados;
     }
-    // #endregion
+    //#endregion
 }

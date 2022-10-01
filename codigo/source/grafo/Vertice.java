@@ -33,11 +33,8 @@ public class Vertice {
         this.pai = pai;
     }
 
-    public Vertice[] getListaAdjacencia() {
-        Vertice[] vertices = new Vertice[this.getGrau()];
-        vertices = adj.allElements(vertices);
-
-        return vertices;
+    public Lista<Vertice> getListaAdjacencia() {
+        return this.adj;
     }
 
 
@@ -49,7 +46,6 @@ public class Vertice {
         this.id = id;
         this.arestas = new ABB<Aresta>();
         this.adj = new Lista<Vertice>();
-        adj.add(this);
         this.visitado = false;
     }
 
@@ -69,17 +65,8 @@ public class Vertice {
      * @param destino Vértice de destino
     */
     public boolean addAresta(int destino, int peso){
-        adj.add(new Vertice(destino));
+        this.adj.add(new Vertice(destino));
         return this.arestas.add(destino, new Aresta(peso, destino));
-    }
-
-    /**
-     * Adiciona uma aresta neste vértice para um destino
-     * @param destino Vértice de destino
-     */
-    public boolean removerAresta(int destino){
-        adj.remove(this);
-        return this.arestas.remove(destino, this.arestas.find(destino));
     }
 
     /**
@@ -87,23 +74,15 @@ public class Vertice {
      * @param destino Vértice de destino
      * @return TRUE se existe aresta, FALSE se não
     */
-    public boolean existeAresta(int destino){
-        return (this.arestas.find(destino) != null);
-    }
-
-    public Aresta arestaConectadaCom(int destino){
-        if(existeAresta(destino)){
-            return this.arestas.find(destino);
-        }
-
-        return null;
+    public Aresta existeAresta(int destino){
+        return arestas.find(destino);
     }
 
     public Aresta[] getAllArestas() {
-        Aresta[] arestaArray = new Aresta[this.getGrau()];
-        arestaArray = arestas.allElements(arestaArray);
+        Aresta[] allArestas = new Aresta[arestas.size()];
+        allArestas = arestas.allElements(allArestas);
 
-        return arestaArray;
+        return allArestas;
     }
 
     
