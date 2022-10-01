@@ -1,3 +1,4 @@
+
 package source.grafo;
 
 import source.ABB;
@@ -7,13 +8,13 @@ import source.Lista;
  * Classe básica para um Grafo simples
  */
 public abstract class Grafo implements Cloneable {
-    //#region Atributos
+    // #region Atributos
 
     public final String nome;
     protected ABB<Vertice> vertices;
-    //#endregion
+    // #endregion
 
-    //#region Construtor
+    // #region Construtor
 
     /**
      * Construtor. Cria um grafo vazio com capacidade para MAX_VERTICES
@@ -22,22 +23,22 @@ public abstract class Grafo implements Cloneable {
         this.nome = nome;
         this.vertices = new ABB<>();
     }
-    //#endregion
+    // #endregion
 
-    //#region Getters
+    // #region Getters
 
     public int tamanho() {
         Aresta[] aresta = new Aresta[this.ordem()];
         aresta = this.getArestas().allElements(aresta);
-        return this.ordem() + (aresta.length  / 2);
+        return this.ordem() + (aresta.length / 2);
     }
 
     public int ordem() {
         return this.vertices.size();
     }
-    //#endregion
+    // #endregion
 
-    //#region Métodos booleanos
+    // #region Métodos booleanos
 
     public boolean completo() {
         return false;
@@ -46,9 +47,9 @@ public abstract class Grafo implements Cloneable {
     public boolean euleriano() {
         return true;
     }
-    //#endregion
+    // #endregion
 
-    //#region Métodos de Vértices
+    // #region Métodos de Vértices
 
     /**
      * Adiciona, se possível, um vértice ao grafo. O vértice é auto-nomeado com o
@@ -80,27 +81,36 @@ public abstract class Grafo implements Cloneable {
         return vertices.find(id).getListaAdjacencia();
     }
 
+    private Lista<Vertice> buscaEmProfundidadeUtil(int id, Lista<Vertice> visitados) {
+        Vertice vertice = this.existeVertice(id);
+        if (!vertice.foiVisitado()) {
+            visitados.add(vertice);
+        }
 
-    public Vertice[] buscaEmProfundidade(int id, Vertice[] visitados) {
-        Vertice[] listaAdjacencia = this.listaAdjacencia(id);
+        Vertice[] listaAdjacencia = this.listaAdjacencia(vertice);
 
-        int i = 1;
         for (Vertice verticeAdjacente : listaAdjacencia) {
             if (verticeAdjacente != null) {
                 if (!verticeAdjacente.foiVisitado()) {
                     verticeAdjacente.visitar();
-                    visitados[i++] = verticeAdjacente;
-                    buscaEmProfundidade(verticeAdjacente.getId(), visitados);
+                    buscaEmProfundidadeUtil(verticeAdjacente.getId(), visitados);
                 }
             }
         }
-        visitados[0] = getVertice(id);
+
         return visitados;
     }
 
-    //#endregion
+    public Lista<Vertice> buscaEmProfundidade(int id) {
+        Lista<Vertice> visitados = new Lista<>();
+        visitados = buscaEmProfundidadeUtil(id, visitados);
 
-    //#region Métodos de Arestas
+        return visitados;
+    }
+
+    // #endregion
+
+    // #region Métodos de Arestas
 
     public boolean addAresta(int origem, int destino, int peso) {
         Vertice saida = this.existeVertice(origem);
@@ -163,26 +173,9 @@ public abstract class Grafo implements Cloneable {
         return nonBridgeCount < ponteCount;
     }
 
-    //#endregion
-    public Vertice[] encontrarCaminho(int verticeInicial, int verticeDestino, Vertice[] visitados) {
-        Vertice[] listaAdjacencia = listaDeAdjacencia(verticeInicial);
-        Vertice inicial = this.existeVertice(verticeInicial);
-        Vertice destino = this.existeVertice(verticeDestino);
-        int indice = 0;
+    // #endregion
+    public void encontrarCaminho(int verticeInicial, int verticeDestino) {
 
-        if (inicial.existeAresta(verticeDestino)) {
-            visitados[indice++] = inicial;
-        } else {
-            for (int j = 0; j < listaAdjacencia.length; j++) {
-                if (listaAdjacencia[j] != null) {
-                    if (listaAdjacencia[j].existeAresta(destino.getId())) {
-                        encontrarCaminho(listaAdjacencia[j].getId(), verticeDestino, visitados);
-                    }
-                }
-            }
-        }
-
-        return visitados;
     }
 
     public Vertice[] listaDeAdjacencia(int id) {
@@ -202,7 +195,7 @@ public abstract class Grafo implements Cloneable {
     public abstract Grafo subGrafo(Lista<Vertice> vertices) throws Exception;
     // #endregion
 
-    //#region Métodos Aux
+    // #region Métodos Aux
 
     private void caminhoEuleriano(Grafo grafo, Lista<Vertice> caminho, Vertice from) throws CloneNotSupportedException {
         Vertice[] listaAdjacencia = from.getListaAdjacencia();
@@ -220,19 +213,19 @@ public abstract class Grafo implements Cloneable {
         Grafo grafoAux = (Grafo) this.clone();
         Lista<Vertice> caminho = new Lista<>();
 
-        if(!this.euleriano()){
+        if (!this.euleriano()) {
             caminho.add(getVerticeComGrauImpar());
             caminhoEuleriano(grafoAux, caminho, caminho.getElement(0));
         }
         // if (oddCount == 0) {
-        //     caminho.add(verticeInicial);
-        //     caminhoEuleriano(grafoAux, caminho, caminho.getElement(0));
+        // caminho.add(verticeInicial);
+        // caminhoEuleriano(grafoAux, caminho, caminho.getElement(0));
         // // } else if (oddCount == 2) {
-        // //     caminho.add(getVerticeComGrauImpar());
-        // //     caminhoEuleriano(grafoAux, caminho, caminho.getElement(0));
-        // // } 
+        // // caminho.add(getVerticeComGrauImpar());
+        // // caminhoEuleriano(grafoAux, caminho, caminho.getElement(0));
+        // // }
         // }else {
-        //     throw new Exception("Euler properties infringed.");
+        // throw new Exception("Euler properties infringed.");
         // }
 
         return caminho;
@@ -242,8 +235,8 @@ public abstract class Grafo implements Cloneable {
         int quant = 0;
         Vertice[] listaVertices = this.getAllVertices();
 
-        for(Vertice vertice : listaVertices) {
-            if((vertice.getGrau() % 2) != 0) {
+        for (Vertice vertice : listaVertices) {
+            if ((vertice.getGrau() % 2) != 0) {
                 quant++;
             }
         }
@@ -254,8 +247,8 @@ public abstract class Grafo implements Cloneable {
     private Vertice getVerticeComGrauImpar() {
         Vertice[] listaVertices = this.getAllVertices();
 
-        for(Vertice vertice : listaVertices) {
-            if((vertice.getGrau() % 2) != 0) {
+        for (Vertice vertice : listaVertices) {
+            if ((vertice.getGrau() % 2) != 0) {
                 return vertice;
             }
         }
@@ -272,7 +265,7 @@ public abstract class Grafo implements Cloneable {
         Vertice[] verticesArray = getAllVertices();
 
         for (Vertice vertice : verticesArray) {
-            for(Aresta aresta : vertice.getAllArestas()){
+            for (Aresta aresta : vertice.getAllArestas()) {
                 arestas.add(aresta);
             }
         }

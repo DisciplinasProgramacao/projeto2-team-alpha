@@ -3,8 +3,9 @@ package source.grafo;
 import source.Lista;
 import source.Arquivo;
 import java.io.IOException;
+
 public class GrafoNaoPonderado extends GrafoMutavel {
-    //#region Contrutor
+    // #region Contrutor
 
     public GrafoNaoPonderado(String nome) {
         super(nome);
@@ -19,9 +20,9 @@ public class GrafoNaoPonderado extends GrafoMutavel {
     public boolean euleriano() {
         return false;
     }
-    //#endregion
+    // #endregion
 
-    //#region boolean addAresta
+    // #region boolean addAresta
 
     /**
      * Adiciona uma aresta entre dois vértices do grafo.
@@ -34,39 +35,39 @@ public class GrafoNaoPonderado extends GrafoMutavel {
     public boolean addAresta(int origem, int destino) {
         return addAresta(origem, destino, 0);
     }
-    //#endregion
+    // #endregion
 
-    //#region subgrafo
+    // #region subgrafo
 
     public GrafoNaoPonderado subGrafo(Lista<Vertice> listaVertice) {
-        Vertice[] arrayVertices= new Vertice[this.vertices.size()];
+        Vertice[] arrayVertices = new Vertice[this.vertices.size()];
         arrayVertices = listaVertice.allElements(arrayVertices);
-            GrafoNaoPonderado novoSubGrafo = new GrafoNaoPonderado("subGrafo");
-            for(int i=0; i<arrayVertices.length && arrayVertices[i]!=null;i++){
-                novoSubGrafo.addVertice(arrayVertices[i].getId());
-                for(int j=0; j<novoSubGrafo.ordem()-1;j++){
-                    if(this.existeAresta(arrayVertices[i].getId(), arrayVertices[j].getId())!=null){
-                        novoSubGrafo.addAresta(arrayVertices[i].getId(), arrayVertices[j].getId());
-                    }
+        GrafoNaoPonderado novoSubGrafo = new GrafoNaoPonderado("subGrafo");
+        for (int i = 0; i < arrayVertices.length && arrayVertices[i] != null; i++) {
+            novoSubGrafo.addVertice(arrayVertices[i].getId());
+            for (int j = 0; j < novoSubGrafo.ordem() - 1; j++) {
+                if (this.existeAresta(arrayVertices[i].getId(), arrayVertices[j].getId()) != null) {
+                    novoSubGrafo.addAresta(arrayVertices[i].getId(), arrayVertices[j].getId());
                 }
             }
-            return novoSubGrafo;
+        }
+        return novoSubGrafo;
     }
-    //#endregion
+    // #endregion
 
-    //#region Manipular Arquivo
+    // #region Manipular Arquivo
 
     @Override
     public void carregar(String nomeArquivo) throws IOException {
         Arquivo arq = new Arquivo("codigo/app/files/", nomeArquivo, "read");
-       
+
         while (arq.ready()) {
             String line = arq.readLine();
             line = line.replaceAll("\\n", "");
             String vertices[] = line.split(";");
 
             int verticeOrigem = Integer.parseInt(vertices[0]);
-            
+
             for (String vertice : vertices) {
                 int verticeInt = Integer.parseInt(vertice);
                 this.addVertice(verticeInt);
@@ -76,7 +77,7 @@ public class GrafoNaoPonderado extends GrafoMutavel {
                 }
             }
         }
-  
+
         arq.close();
     }
 
@@ -94,13 +95,12 @@ public class GrafoNaoPonderado extends GrafoMutavel {
 
             arq.write("\n");
         }
-    
+
         arq.close();
     }
-    
-    
+
     public void salvar() throws IOException {
         salvar(this.nome);
     }
-    //#endregion
+    // #endregion
 }

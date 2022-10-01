@@ -82,14 +82,20 @@ public class App {
         grafo.addAresta(1, 3);
         grafo.addAresta(1, 2);
         grafo.addAresta(3, 5);
-        Vertice[] visitados = new Vertice[100];
-        visitados = grafo.buscaEmProfundidade(1, visitados);
+        Lista<Vertice> visitados = new Lista<>();
+        visitados = grafo.buscaEmProfundidade(1);
 
-        for (Vertice vertice : visitados) {
+        Vertice[] visitadosArray = new Vertice[100];
+        visitados.allElements(visitadosArray);
+
+        for (Vertice vertice : visitadosArray) {
             if (vertice != null) {
                 System.out.println(vertice.getId());
             }
         }
+        System.out.println("\n====================================================================\n");
+
+        // grafo.encontrarCaminho(1, 3);
 
         System.out.println("\n====================================================================\n");
 
@@ -119,11 +125,10 @@ public class App {
         System.out.println("\n====================================================================\n");
         System.out.println("Caminho Euleriano: ");
 
-        GrafoCompleto grafoCompleto= new GrafoCompleto("grafoCompleto", 11);
+        GrafoCompleto grafoCompleto = new GrafoCompleto("grafoCompleto", 11);
 
         Vertice[] vertices = new Vertice[grafoCompleto.tamanho()];
         vertices = grafoCompleto.caminhoEuleriano().allElements(vertices);
-
 
         for (Vertice vertice : vertices) {
             if (vertice != null) {
