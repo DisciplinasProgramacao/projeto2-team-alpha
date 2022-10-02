@@ -8,13 +8,13 @@ import java.util.*;
  * Classe básica para um Grafo simples
  */
 public abstract class Grafo implements Cloneable {
-    //#region Atributos
+    // #region Atributos
 
     public final String nome;
     protected ABB<Vertice> vertices;
-    //#endregion
+    // #endregion
 
-    //#region Construtor
+    // #region Construtor
 
     /**
      * Construtor. Cria um grafo vazio com capacidade para MAX_VERTICES
@@ -23,9 +23,9 @@ public abstract class Grafo implements Cloneable {
         this.nome = nome;
         this.vertices = new ABB<>();
     }
-    //#endregion
+    // #endregion
 
-    //#region Getters
+    // #region Getters
 
     public int tamanho() {
         return this.ordem() + (this.getAllArestas().length() / 2);
@@ -49,16 +49,16 @@ public abstract class Grafo implements Cloneable {
         Lista<Aresta> arestas = new Lista<>();
 
         for (Vertice vertice : this.getAllVertices()) {
-            for(Aresta aresta : vertice.getAllArestas()){
+            for (Aresta aresta : vertice.getAllArestas()) {
                 arestas.add(aresta);
             }
         }
 
         return arestas;
     }
-    //#endregion
+    // #endregion
 
-    //#region Métodos booleanos
+    // #region Métodos booleanos
 
     public boolean completo() {
         Vertice[] vertices = getAllVertices();
@@ -79,17 +79,17 @@ public abstract class Grafo implements Cloneable {
     }
 
     public boolean euleriano() {
-        for(Vertice vertice : this.getAllVertices()) {
-            if(vertice.getGrau() % 2 != 0) {
+        for (Vertice vertice : this.getAllVertices()) {
+            if (vertice.getGrau() % 2 != 0) {
                 return false;
             }
         }
 
         return true;
     }
-    //#endregion
+    // #endregion
 
-    //#region Métodos de Vértices
+    // #region Métodos de Vértices
 
     /**
      * Adiciona, se possível, um vértice ao grafo. O vértice é auto-nomeado com o
@@ -112,9 +112,9 @@ public abstract class Grafo implements Cloneable {
     public Vertice existeVertice(int idVertice) {
         return this.vertices.find(idVertice);
     }
-    //#endregion
+    // #endregion
 
-    //#region Métodos de Arestas
+    // #region Métodos de Arestas
 
     public boolean addAresta(int origem, int destino, int peso) {
         Vertice saida = this.existeVertice(origem);
@@ -132,25 +132,19 @@ public abstract class Grafo implements Cloneable {
     public Aresta existeAresta(int verticeA, int verticeB) {
         return vertices.find(verticeA).existeAresta(verticeB);
     }
-    //#endregion
+    // #endregion
 
-    //#region Métodos Principais
-    public Vertice[] encontrarCaminho(int verticeInicial, int verticeDestino, Vertice[] visitados) {
-        Vertice[] listaAdjacencia = listaAdjacencia(verticeInicial);
-        Vertice inicial = this.existeVertice(verticeInicial);
-        Vertice destino = this.existeVertice(verticeDestino);
-        int indice = 0;
-
-        if (inicial.existeAresta(verticeDestino) != null) {
-            visitados[indice++] = inicial;
-        } else {
-            for (int j = 0; j < listaAdjacencia.length; j++) {
-                if (listaAdjacencia[j] != null) {
-                    if (listaAdjacencia[j].existeAresta(destino.getId()) != null) {
-                        encontrarCaminho(listaAdjacencia[j].getId(), verticeDestino, visitados);
-                    }
-                }
+    // #region Métodos Principais
+    public Vertice[] encontrarCaminho(int verticeInicial, int verticeDestino) {
+        Lista<Vertice> lista = this.buscaEmProfundidade(verticeInicial);
+        Vertice[] visitados = new Vertice[vertices.size()];
+        int i = 0;
+        for (Vertice vertice : visitados) {
+            visitados[i] = lista.pop();
+            if (visitados[i].getId() == verticeDestino) {
+                break;
             }
+            i++;
         }
 
         return visitados;
@@ -159,18 +153,18 @@ public abstract class Grafo implements Cloneable {
     public abstract Grafo subGrafo(Lista<Vertice> vertices) throws Exception;
 
     public Lista<Vertice> caminhoEuleriano() throws IllegalStateException {
-        if(!this.euleriano()) {
+        if (!this.euleriano()) {
             throw new IllegalStateException("Euler properties infringed");
         }
 
         Lista<Lista<Integer>> adj = new Lista<>();
 
-        for(Vertice vertice : getAllVertices()) {
+        for (Vertice vertice : getAllVertices()) {
             Lista<Integer> vertices = new Lista<>();
             vertices.add(vertice.getId());
 
-            for(Vertice adjacencia : listaAdjacencia(vertice.getId())) {
-                if(adjacencia != null) {
+            for (Vertice adjacencia : listaAdjacencia(vertice.getId())) {
+                if (adjacencia != null) {
                     vertices.add(adjacencia.getId());
                 }
             }
@@ -204,7 +198,7 @@ public abstract class Grafo implements Cloneable {
             } else {
                 Vertice vertice = getVertice(currentVertexNumber);
 
-                if(!vertice.foiVisitado()) {
+                if (!vertice.foiVisitado()) {
                     currentCaminho.add(vertice);
                     vertice.visitar();
                 }
@@ -215,7 +209,7 @@ public abstract class Grafo implements Cloneable {
 
         currentCaminho.add(getVertice(currentVertexNumber));
 
-        for(int i = currentCaminho.length(); i > 0; i--) {
+        for (int i = currentCaminho.length(); i > 0; i--) {
             caminho.add(currentCaminho.pop());
         }
 
@@ -227,6 +221,7 @@ public abstract class Grafo implements Cloneable {
         if (!vertice.foiVisitado()) {
             visitados.add(vertice);
         }
+        vertice.visitar();
 
         Vertice[] listaAdjacencia = this.listaAdjacencia(vertice.getId());
 
@@ -248,5 +243,5 @@ public abstract class Grafo implements Cloneable {
 
         return visitados;
     }
-    //#endregion
+    // #endregion
 }

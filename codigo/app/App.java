@@ -42,8 +42,8 @@ public class App {
 
         j = 2;
         for (int i = 0; i < 10; i++) {
-            grafoNaoPonderado.addAresta(i, j, i+j);
-            grafoNaoPonderado.addAresta(j + 2, j, j-i);
+            grafoNaoPonderado.addAresta(i, j, i + j);
+            grafoNaoPonderado.addAresta(j + 2, j, j - i);
         }
         grafoNaoPonderado.addAresta(1, 5, 3);
         grafoNaoPonderado.addAresta(4, 7, 1);
@@ -89,8 +89,23 @@ public class App {
             }
         }
         System.out.println("\n====================================================================\n");
+        GrafoNaoPonderado grafoCaminho = new GrafoNaoPonderado("Grafo para caminho");
+        grafoCaminho.addVertice(1);
+        grafoCaminho.addVertice(2);
+        grafoCaminho.addVertice(3);
+        grafoCaminho.addVertice(4);
+        grafoCaminho.addVertice(5);
+        grafoCaminho.addAresta(1, 3);
+        grafoCaminho.addAresta(1, 2);
+        grafoCaminho.addAresta(3, 5);
         System.out.println("Encontrar Caminho:");
-        // grafo.encontrarCaminho(1, 3);
+        Vertice[] listaCaminho = new Vertice[100];
+        listaCaminho = grafoCaminho.encontrarCaminho(1, 3);
+        for (Vertice vertice : listaCaminho) {
+            if (vertice != null) {
+                System.out.println(vertice.getId());
+            }
+        }
 
         System.out.println("\n====================================================================\n");
         System.out.println("Subgrafo:");
@@ -147,7 +162,7 @@ public class App {
         vertices = caminhoEulerianoTest.caminhoEuleriano().allElements(vertices);
         int i = 0;
         for (Vertice vertice : vertices) {
-            if(i != 0){
+            if (i != 0) {
                 System.out.print(" -> ");
             }
 
@@ -175,7 +190,7 @@ public class App {
         vertices2 = caminhoEulerianoTest2.caminhoEuleriano().allElements(vertices2);
         i = 0;
         for (Vertice vertice : vertices2) {
-            if(i != 0){
+            if (i != 0) {
                 System.out.print(" -> ");
             }
 
