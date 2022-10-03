@@ -1,8 +1,13 @@
-# Especifique aqui seu plano de testes, no formato:
-
-1. Objetivo do teste 1
-  - nome do método 1
-2. Objetivo do teste 2
-  - nome do método 2
-
-e assim sucessivamente.
+1. Testar grafos completos
+  - TestGrafoCompletoPositivo
+  - TestGrafoCompletoNegativo
+  - TestOrdem
+  - TestTtamanho
+2. Testar grafos nao ponderados.
+  - TestAddAresta
+  - TestSubgrafo
+3. Testar grafos ponderados.
+  - TestAddAresta
+  - TestSubgrafo
+4. Testar Classe Aresta
+  - 
