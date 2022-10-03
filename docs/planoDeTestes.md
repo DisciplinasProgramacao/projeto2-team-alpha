@@ -6,6 +6,7 @@
 2. Testar grafos nao ponderados.
   - TestAddAresta
   - TestSubgrafo
+  - TestDeProfundidade
 3. Testar grafos ponderados.
   - TestAddAresta
   - TestSubgrafo
