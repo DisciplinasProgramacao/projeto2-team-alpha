@@ -46,7 +46,7 @@ public class TestGrafoNaoPonderado {
         grafoNaoPonderado.addAresta(1,3);
         grafoNaoPonderado.addAresta(2,4);
         grafoNaoPonderado.addAresta(1,4);
-        
+
         Lista<Vertice> listaDeVertices = new Lista<Vertice>();
         listaDeVertices.add(new Vertice(1));
         listaDeVertices.add(new Vertice(2));
@@ -54,6 +54,7 @@ public class TestGrafoNaoPonderado {
         GrafoNaoPonderado subGrafo = grafoNaoPonderado.subGrafo(listaDeVertices);
         
         assertEquals(3, subGrafo.ordem(),"Testa ordem do respectivo gravo");
+        assertEquals(6,subGrafo.tamanho(),"Testa tamanho do respectivo grafo");
         
     }
 }
