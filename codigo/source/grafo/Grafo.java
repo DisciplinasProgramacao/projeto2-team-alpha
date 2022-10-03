@@ -60,6 +60,12 @@ public abstract class Grafo implements Cloneable {
 
     // #region Métodos booleanos
 
+    /**
+     * Método que verifica se o grafo é completo
+     * 
+     * @return true Caso seja completo
+     * @return false Caso seja incompleto
+     */
     public boolean completo() {
         Vertice[] vertices = getAllVertices();
 
@@ -78,6 +84,12 @@ public abstract class Grafo implements Cloneable {
         return true;
     }
 
+    /**
+     * Confere se um grafo é euleriano
+     * 
+     * @return true Se o grafo é euleriano
+     * @return false Se o grafo não é euleriano
+     */
     public boolean euleriano() {
         for (Vertice vertice : this.getAllVertices()) {
             if (vertice.getGrau() % 2 != 0) {
@@ -102,6 +114,9 @@ public abstract class Grafo implements Cloneable {
         return novo;
     }
 
+    /**
+     * Método que retorna a lista de adjacência de um grafo
+     */
     public Vertice[] listaAdjacencia(int id) {
         Vertice[] listaAdjacencia = new Vertice[this.ordem()];
         listaAdjacencia = vertices.find(id).getListaAdjacencia().allElements(listaAdjacencia);
@@ -109,6 +124,11 @@ public abstract class Grafo implements Cloneable {
         return listaAdjacencia;
     }
 
+    /**
+     * Método que recebe um id e verifica se existe um vértice
+     * 
+     * @return Vertice Se existente
+     */
     public Vertice existeVertice(int idVertice) {
         return this.vertices.find(idVertice);
     }
@@ -116,6 +136,15 @@ public abstract class Grafo implements Cloneable {
 
     // #region Métodos de Arestas
 
+    /**
+     * Método que adiciona uma aresta
+     * 
+     * @param origem  - Id do vértice de origem
+     * @param destino - Id do vértice de destino
+     * @param peso    - Peso da aresta
+     * @return true Se a aresta foi adiciona
+     * @return false Se a aresta não foi adicionada
+     */
     public boolean addAresta(int origem, int destino, int peso) {
         Vertice saida = this.existeVertice(origem);
         Vertice chegada = this.existeVertice(destino);
@@ -129,12 +158,26 @@ public abstract class Grafo implements Cloneable {
         return false;
     }
 
+    /**
+     * Método que verifica a existência de uma aresta entre dois vértices
+     * 
+     * @param verticeA Id do vértice de origem
+     * @param verticeB Id do vértice de destino
+     * @return Aresta A aresta encontrada
+     */
     public Aresta existeAresta(int verticeA, int verticeB) {
         return vertices.find(verticeA).existeAresta(verticeB);
     }
     // #endregion
 
     // #region Métodos Principais
+    /**
+     * Método que encontra um caminho entre dois vértices do grafo
+     * 
+     * @param verticeInicial Vértice inicial
+     * @param verticeDestino Vértice destino
+     * @return Uma lista de vértices contendo o caminho percorrido
+     */
     public Vertice[] encontrarCaminho(int verticeInicial, int verticeDestino) {
         Lista<Vertice> lista = this.buscaEmProfundidade(verticeInicial);
         Vertice[] visitados = new Vertice[vertices.size()];
@@ -152,6 +195,12 @@ public abstract class Grafo implements Cloneable {
 
     public abstract Grafo subGrafo(Lista<Vertice> vertices) throws Exception;
 
+    /**
+     * Método que prepara os dados e retorna o caminho euleriano de um grafo
+     * 
+     * @return Lista de vértices percorrido
+     * @throws IllegalStateException
+     */
     public Lista<Vertice> caminhoEuleriano() throws IllegalStateException {
         if (!this.euleriano()) {
             throw new IllegalStateException("Euler properties infringed");
@@ -177,6 +226,12 @@ public abstract class Grafo implements Cloneable {
         return caminho;
     }
 
+    /**
+     * Método que salva o caminho euleriano do grafo
+     * 
+     * @param adj Lista de vértices adjacentes
+     * @return Lista de vértices
+     */
     private Lista<Vertice> printEulerianCircuit(Lista<Lista<Integer>> adj) {
         Lista<Vertice> caminho = new Lista<>();
         Map<Integer, Integer> arestas = new HashMap<>();
@@ -216,6 +271,13 @@ public abstract class Grafo implements Cloneable {
         return caminho;
     }
 
+    /**
+     * Método privado utilitário que realiza a busca em profundidade em um grafo
+     * 
+     * @param id        Id da raiz da busca
+     * @param visitados Lista contendo os vértices visitados
+     * @return Lista contendo os vértices visitados
+     */
     private Lista<Vertice> buscaEmProfundidadeUtil(int id, Lista<Vertice> visitados) {
         Vertice vertice = this.existeVertice(id);
         if (!vertice.foiVisitado()) {
@@ -237,6 +299,13 @@ public abstract class Grafo implements Cloneable {
         return visitados;
     }
 
+    /**
+     * Método público que chama o método utilitário privado para realizar a busca em
+     * profundidade
+     * 
+     * @param id Id da raiz da busca
+     * @return Lista de vértices visitados
+     */
     public Lista<Vertice> buscaEmProfundidade(int id) {
         Lista<Vertice> visitados = new Lista<>();
         visitados = buscaEmProfundidadeUtil(id, visitados);
