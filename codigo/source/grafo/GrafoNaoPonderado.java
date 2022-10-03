@@ -3,14 +3,14 @@ package source.grafo;
 import source.Lista;
 
 public class GrafoNaoPonderado extends GrafoMutavel {
-    //#region Contrutor
+    // #region Contrutor
 
     public GrafoNaoPonderado(String nome) {
         super(nome);
     }
-    //#endregion
+    // #endregion
 
-    //#region boolean addAresta
+    // #region boolean addAresta
 
     /**
      * Adiciona uma aresta entre dois vértices do grafo.
@@ -23,25 +23,31 @@ public class GrafoNaoPonderado extends GrafoMutavel {
     public boolean addAresta(int origem, int destino) {
         return addAresta(origem, destino, 0);
     }
-    //#endregion
+    // #endregion
 
-    //#region Subgrafo
+    // #region Subgrafo
 
+    /**
+     * Método que gera um subgrafo de um grafo não ponderado
+     * 
+     * @param Lista de vértices que vão gerar o subgrafo
+     * @return Subgrafo não ponderado gerado
+     */
     public GrafoNaoPonderado subGrafo(Lista<Vertice> listaVertice) {
         GrafoNaoPonderado novoSubGrafo = new GrafoNaoPonderado("subGrafo");
         Vertice[] listaVertices = new Vertice[this.ordem()];
         listaVertices = listaVertice.allElements(listaVertices);
 
-        for(int i = 0; i < listaVertices.length && listaVertices[i] != null; i++) {
+        for (int i = 0; i < listaVertices.length && listaVertices[i] != null; i++) {
             novoSubGrafo.addVertice(listaVertices[i].getId());
 
-            for(int j = 0; j < novoSubGrafo.ordem() - 1; j++) {
-                if(this.existeAresta(listaVertices[i].getId(), listaVertices[j].getId())!=null) {
+            for (int j = 0; j < novoSubGrafo.ordem() - 1; j++) {
+                if (this.existeAresta(listaVertices[i].getId(), listaVertices[j].getId()) != null) {
                     novoSubGrafo.addAresta(listaVertices[i].getId(), listaVertices[j].getId());
                 }
             }
         }
         return novoSubGrafo;
     }
-    //#endregion
+    // #endregion
 }
