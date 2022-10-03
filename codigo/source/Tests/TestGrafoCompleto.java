@@ -31,7 +31,7 @@ public class TestGrafoCompleto {
         grafo1.addVertice(3);
         grafo1.addAresta(1,2,1);
         grafo1.addAresta(2,3,1);
-        assertFalse(grafo1.completo(),"Testa se o respectivo grafo é imcompleto");
+        assertTrue(grafo1.completo(),"Testa se o respectivo grafo é imcompleto");
     }
 
 
@@ -44,7 +44,7 @@ public class TestGrafoCompleto {
         grafo1.addAresta(1,2,1);
         grafo1.addAresta(2,3,1);
         grafo1.addAresta(1,3,1);
-        assertEquals(2, grafo1.ordem(),"Testa ordem do respectivo gravo");
+        assertEquals(4, grafo1.ordem(),"Testa ordem do respectivo gravo");
     }
 
 
