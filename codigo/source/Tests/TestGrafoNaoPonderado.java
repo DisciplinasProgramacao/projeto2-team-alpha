@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import source.Lista;
+import source.grafo.Aresta;
 import source.grafo.GrafoNaoPonderado;
 import source.grafo.Vertice;
 
@@ -56,5 +57,22 @@ public class TestGrafoNaoPonderado {
         assertEquals(3, subGrafo.ordem(),"Testa ordem do respectivo gravo");
         assertEquals(6,subGrafo.tamanho(),"Testa tamanho do respectivo grafo");
         
+    }
+    
+    @Test
+    void testBuscaEmProfundidade() {
+        GrafoNaoPonderado grafo = new GrafoNaoPonderado("GrafoDaBuscaEmProfundidade");
+        grafo.addVertice(1);
+        grafo.addVertice(2);
+        grafo.addVertice(3);
+        grafo.addVertice(4);
+        grafo.addVertice(5);
+        grafo.addAresta(1, 3);
+        grafo.addAresta(1, 2);
+        grafo.addAresta(3, 5);
+        Lista<Vertice> visitados = grafo.buscaEmProfundidade(1);
+        Vertice[] visitadosArray = new Vertice[4];
+        //criar array com vertices escolhidos (???)
+        assertEquals(visitados.allElements(visitadosArray),visitadosArray,"Testa vertives visitados na busca");
     }
 }

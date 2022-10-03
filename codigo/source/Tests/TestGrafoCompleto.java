@@ -41,7 +41,7 @@ public class TestGrafoCompleto {
 
 
     @Test
-    void testGetOrdem() {
+    void testOrdem() {
         GrafoCompleto grafo1 = new GrafoCompleto("testaGrafoCompleto", 2);
         grafo1.addVertice(1);
         grafo1.addVertice(2);
@@ -51,6 +51,7 @@ public class TestGrafoCompleto {
         grafo1.addAresta(1,3,1);
         assertEquals(4, grafo1.ordem(),"Testa ordem do respectivo gravo");
     }
+    
 
     @Test
     void testTamanho() {
