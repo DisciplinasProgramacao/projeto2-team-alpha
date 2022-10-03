@@ -72,7 +72,7 @@ public class TestGrafoCompleto {
         listaDeVertices.add(new Vertice(4));
         GrafoNaoPonderado subGrafo = grafoNaoPonderado.subGrafo(listaDeVertices);
         
-        assertEquals(4, subGrafo.ordem(),"Testa ordem do respectivo gravo");
+        assertEquals(3, subGrafo.ordem(),"Testa ordem do respectivo gravo");
         
     }
 }
